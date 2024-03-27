@@ -28,6 +28,8 @@ class Board:
 
     # MOVES
     def move(self, new_pieces):
+        #print(self.current_board)
+        print(new_pieces)
         # Update the board with the new pieces after a move
         self.pieces = new_pieces
         self.current_board = self.create_board(new_pieces)
@@ -54,14 +56,15 @@ class Board:
         if row == 0 or self.current_board[ row-1, col] != 0 or self.current_player != self.current_board[row, col]:
             return None
 
-        new_pieces = [piece[:] for piece in self.pieces] 
+        new_pieces = [piece[:] for piece in self.pieces] #LISTA COM TODAS AS PEÇAS DO TABULEIRO COM AS SUAS POSIÇÕES
+        print(new_pieces)
         piece_index = new_pieces[self.current_player-1].index(piece) 
-     
-        while row != 0:
-            row -= 1
-            if (row, col) in new_pieces[0] or (row, col) in new_pieces[1]:
-                new_pieces[self.current_player-1][piece_index] = (row+1, col)
-                return new_pieces
+
+        for player_pieces in new_pieces:
+            for p in player_pieces:
+                if p[1] == col and p[0] < row-1:
+                    new_pieces[self.current_player-1][piece_index] = (p[0]+1,col)
+                    return new_pieces
 
         new_pieces[self.current_player-1][piece_index] = (0,col)
         return new_pieces
@@ -77,11 +80,11 @@ class Board:
         new_pieces = [piece[:] for piece in self.pieces]
         piece_index = new_pieces[self.current_player-1].index(piece)
 
-        while row != 4:
-            row += 1
-            if (row, col) in new_pieces[0] or (row, col) in new_pieces[1]:
-                new_pieces[self.current_player-1][piece_index] = (row-1, col)
-                return new_pieces
+        for player_pieces in new_pieces:
+            for p in player_pieces:
+                if p[1] == col and p[0] > row+1:
+                    new_pieces[self.current_player-1][piece_index] = (p[0]-1,col)
+                    return new_pieces
 
         new_pieces[self.current_player-1][piece_index] = (4,col)
         return new_pieces
@@ -98,11 +101,11 @@ class Board:
         new_pieces = [piece[:] for piece in self.pieces]
         piece_index = new_pieces[self.current_player-1].index(piece)
 
-        while col != 0:
-            col -= 1
-            if (row, col) in new_pieces[0] or (row, col) in new_pieces[1]:
-                new_pieces[self.current_player-1][piece_index] = (row, col+1)
-                return new_pieces
+        for player_pieces in new_pieces:
+            for p in player_pieces:
+                if p[0] == row and p[1] < col-1:
+                    new_pieces[self.current_player-1][piece_index] = (row, p[1]+1)
+                    return new_pieces
 
         new_pieces[self.current_player-1][piece_index] = (row,0)
         return new_pieces
@@ -118,11 +121,11 @@ class Board:
         new_pieces = [piece[:] for piece in self.pieces]
         piece_index = new_pieces[self.current_player-1].index(piece)
 
-        while col != 4:
-            col += 1
-            if (row, col) in new_pieces[0] or (row, col) in new_pieces[1]:
-                new_pieces[self.current_player-1][piece_index] = (row, col-1)
-                return new_pieces
+        for player_pieces in new_pieces:
+            for p in player_pieces:
+                if p[0] == row and p[1] > col+1:
+                    new_pieces[self.current_player-1][piece_index] = (row, p[1]-1)
+                    return new_pieces
 
         new_pieces[self.current_player-1][piece_index] = (row,4)
         return new_pieces
@@ -243,4 +246,13 @@ class Board:
             if (pieces[1][0]+1, pieces[1][1]-1) == pieces[2]:
                 return self.current_player
         return -1
-    
+'''
+
+board = Board([[(4,4),(3,0),(1,4)],[(0,1),(4,0),(2,4)]])
+print(board)
+peça = board.vertical_up((4,4))
+print(peça)
+board.move(peça)
+print(board)
+
+'''

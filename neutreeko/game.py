@@ -28,7 +28,6 @@ class NeutreekoGame:
         self.button_clicked = False
         self.screen_update = False
         self.mouse_over_button = False
-    
         
     def create_board_surface(self, screen):
         # Create the game board surface
@@ -114,6 +113,13 @@ class NeutreekoGame:
             button_text = font.render("Start  Game", True, BLACK) # Render the text "Start Game" onto a surface
             screen.blit(button_text, (140, 220)) # Blit the rendered text surface onto the screen
             pygame.display.flip()# Update the display
+
+def execute_random_move(game):
+    # Select a random move among the available moves in the game
+    new_pieces = random.choice(game.board.available_moves())
+    # Execute the selected move on the game board
+    game.board.move(new_pieces)
+
 
 def execute_random_move(game):
     # Select a random move among the available moves in the game
