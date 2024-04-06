@@ -50,7 +50,7 @@ class NeutreekoGame:
         
         if len(self.available_pieces) > 0:
             for p in self.available_pieces:
-                self.create_piece(p, GRAY, screen)
+                self.create_piece(p, RED, screen)
     
     def create_piece(self, piece, color, screen):
         piece = Piece(self.board, piece, color, CELL_SIZE)
