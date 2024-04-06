@@ -28,10 +28,8 @@ class Board:
     # MOVES
     def move(self, old_piece, new_piece):
         # Update the board with the new pieces after a move
-        print(old_piece, new_piece)
         piece_index = self.pieces[self.current_player-1].index(old_piece)
         self.pieces[self.current_player-1][piece_index] = new_piece
-        print(self.pieces)
         self.current_board = self.create_board(self.pieces)
         self.winner = self.update_winner()
         self.consecutive_plays = sorted(self.pieces)
@@ -39,8 +37,9 @@ class Board:
     def available_moves(self):
         # Return a list of available moves for the current player
         possible_moves = []
-        for piece in self.pieces[self.current_player-1]:
-            possible_moves.extend(self.piece_move(piece)) # peças, peças que poden ser mechidas
+        for piece in self.pieces[self.current_player-1]: 
+            possible_moves.append((piece, p) for p in self.piece_move(piece))
+            # peças, peças que poden ser mechidas
         return possible_moves
 
     def piece_move(self, piece):
@@ -48,7 +47,7 @@ class Board:
         for func in self.move_functions:
             funct_move = func(piece)
             if funct_move:
-                p_moves.append([piece, funct_move])
+                p_moves.append(funct_move)
         return p_moves
 
 

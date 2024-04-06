@@ -8,6 +8,7 @@ from .piece import Piece
 SIZE =  5
 WHITE = (255, 255, 255) 
 BLACK = (0, 0, 0)
+RED = (139,0,19)
 BLUE_1 = (88, 154, 141) 
 BLUE_2 = (143, 193, 181)
 CELL_SIZE = 100
@@ -32,6 +33,7 @@ class NeutreekoGame:
         self.mouse_over_button = False
         self.game_pieces = [[], []]
         self.players_moved = False
+        self.available_pieces = []
         
     def create_board_surface(self, screen):
         # Create the game board surface
@@ -44,9 +46,16 @@ class NeutreekoGame:
         for i in range(len(pieces)):
             self.game_pieces[i].clear()
             for p in pieces[i]: # Pieces player 1
-                piece = Piece(self.board, p, PIECE_COLORS[i], CELL_SIZE)
-                self.game_pieces[i].append(piece)
-                piece.draw(screen)
+                self.game_pieces[i].append(self.create_piece(p, PIECE_COLORS[i], screen))
+        
+        if len(self.available_pieces) > 0:
+            for p in self.available_pieces:
+                self.create_piece(p, GRAY, screen)
+    
+    def create_piece(self, piece, color, screen):
+        piece = Piece(self.board, piece, color, CELL_SIZE)
+        piece.draw(screen)
+        return piece
             
     def update_screen(self, screen):
         # Update the game screen with the board and pieces
@@ -57,10 +66,9 @@ class NeutreekoGame:
     def check_click(self, screen, pos):
         for piece in self.game_pieces[self.board.current_player-1]:
             if piece.is_clicked(pos):
-                print(piece.piece_moves)
-                for row, col in piece.piece_moves:
-                    print(row, col)
-                    pygame.draw.rect(screen, (255, 255, 0), (col * CELL_SIZE, row * CELL_SIZE, CELL_SIZE, CELL_SIZE))
+                print('click')
+                self.available_pieces = piece.piece_moves
+                self.update_screen(screen) #
                 break
                
 
@@ -141,6 +149,5 @@ class NeutreekoGame:
 def execute_random_move(game):
     # Select a random move among the available moves in the game
     new_pieces = random.choice(game.board.available_moves())
-    print('AQUIIIII', new_pieces)
     # Execute the selected move on the game board
     game.board.move(new_pieces[0], new_pieces[1])
