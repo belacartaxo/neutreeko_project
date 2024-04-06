@@ -8,7 +8,7 @@ from .piece import Piece
 SIZE =  5
 WHITE = (255, 255, 255) 
 BLACK = (0, 0, 0)
-RED = (139,0,19)
+GREEN = (78,255,93)
 BLUE_1 = (88, 154, 141) 
 BLUE_2 = (143, 193, 181)
 CELL_SIZE = 100
@@ -50,7 +50,7 @@ class NeutreekoGame:
         
         if len(self.available_pieces) > 0:
             for p in self.available_pieces:
-                self.create_piece(p, RED, screen)
+                self.create_piece(p, GREEN, screen)
     
     def create_piece(self, piece, color, screen):
         piece = Piece(self.board, piece, color, CELL_SIZE)
@@ -66,7 +66,6 @@ class NeutreekoGame:
     def check_click(self, screen, pos):
         for piece in self.game_pieces[self.board.current_player-1]:
             if piece.is_clicked(pos):
-                print('click')
                 self.available_pieces = piece.piece_moves
                 self.update_screen(screen) #
                 break
@@ -91,7 +90,7 @@ class NeutreekoGame:
                     pygame.quit() # Quit Pygame
                     sys.exit() # Exit the Python program
                 elif event.type == pygame.MOUSEBUTTONDOWN:# Check if the user clicked the mouse button
-                    if not self.button_clicked and button_rect.collidepoint(event.pos):  # Check if the game button hasn't been clicked yet and if the mouse click occurred within the button rectangle
+                    if not self.button_clicked and button_rect.collidepoint(event.pos):  # Check if the game button hasn't been clicked yet and if the mouse click occurGREEN within the button rectangle
                         self.button_clicked = True # Set the button_clicked flag to True
                         self.update_screen(screen)# Update the screen to reflect the button click
                     elif self.button_clicked and self.player[self.board.current_player-1] is None:  # Check if current player is human
@@ -116,7 +115,7 @@ class NeutreekoGame:
                         text = f"Player {self.board.winner} wins!" if self.board.winner != 0 else "Draw!" # Determine the message to be displayed based on the winner
                         text_surface = font.render(text, True, BLACK)  # Render the text onto a surface
                         text_rect = self.create_text(screen, font, text)   # Create a rectangle to position the text in the center of the screen
-                        screen.blit(text_surface, text_rect) # Blit the rendered text surface onto the screen
+                        screen.blit(text_surface, text_rect) # Blit the rendeGREEN text surface onto the screen
                         pygame.display.flip()   # Update the display 
                         pygame.time.wait(2000) # Pause the game so we can see the result
                         pygame.quit() # Quit Pygame
@@ -137,13 +136,13 @@ class NeutreekoGame:
         result_box = pygame.Rect(100, 200, 300, 100) # Define a rectangle
         pygame.draw.rect(screen, WHITE, result_box) # Draw a rectangle on the screen using the defined rectangle
         text = font.render(text, True, WHITE) # Render the text onto a surface
-        return text.get_rect(center=result_box.center) # Return a rectangle that centers the rendered text within the previously defined rectangle
+        return text.get_rect(center=result_box.center) # Return a rectangle that centers the rendeGREEN text within the previously defined rectangle
     
     def draw_button(self, screen, font, button_rect):   
             # Draw the start game button         
             pygame.draw.rect(screen, BLACK, button_rect) # Draw a rectangle representing the button on the scree
             button_text = font.render("Start  Game", True, WHITE) # Render the text "Start Game" onto a surface
-            screen.blit(button_text, (140, 220)) # Blit the rendered text surface onto the screen
+            screen.blit(button_text, (140, 220)) # Blit the rendeGREEN text surface onto the screen
             pygame.display.flip()# Update the display
 
 def execute_random_move(game):
