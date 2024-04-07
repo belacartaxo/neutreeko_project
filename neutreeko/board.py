@@ -11,11 +11,16 @@ class Board:
         self.winner = -1
         self.move_functions = [self.vertical_up, self.vertical_down, self.horizontal_left, self.horizontal_right, self.diagonal_up_left,
                              self.diagonal_up_right, self.diagonal_down_left, self.diagonal_down_right]
-        self.consecutive_plays = []
+        self.consecutive_plays = [self.sorted_list(self.pieces)]
+
 
     def __str__(self):
         # Return string representation of the current board
         return str(self.current_board)
+    
+    def sorted_list(self, list_of_lists):
+        return [sorted(sublist, key=lambda x: sum(x)) for sublist in list_of_lists]
+
 
     def create_board(self, pieces):
          # Create a new board based on the given pieces
@@ -31,8 +36,8 @@ class Board:
         piece_index = self.pieces[self.current_player-1].index(old_piece)
         self.pieces[self.current_player-1][piece_index] = new_piece
         self.current_board = self.create_board(self.pieces)
+        self.consecutive_plays.append(self.sorted_list(self.pieces))
         self.winner = self.update_winner()
-        self.consecutive_plays = sorted(self.pieces)
 
     def available_moves(self):
         # Return a list of available moves for the current player
@@ -182,8 +187,8 @@ class Board:
     # ANALYZING WINNER
     def update_winner(self):
         #draw
-        if len(self.consecutive_plays) == 5:
-            if self.consecutive_plays[0] == self.consecutive_plays[2] and self.consecutive_plays[SIZE-1]:
+        if len(self.consecutive_plays) == 9:
+            if self.consecutive_plays[0] == self.consecutive_plays[4] == self.consecutive_plays[8]:
                 return 0
             self.consecutive_plays.pop(0)
 
