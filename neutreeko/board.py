@@ -184,13 +184,29 @@ class Board:
 
 
 
-    # ANALYZING WINNER
+
+ # ANALYZING WINNER
     def update_winner(self):
         #draw
-        if len(self.consecutive_plays) == 9:
-            if self.consecutive_plays[0] == self.consecutive_plays[4] == self.consecutive_plays[8]:
-                return 0
-            self.consecutive_plays.pop(0)
+        #if len(self.consecutive_plays) == 9:
+        #    if self.consecutive_plays[0] == self.consecutive_plays[4] == self.consecutive_plays[8]:
+        #        return 0
+        #    self.consecutive_plays.pop(0)
+
+        # Inicializa um dicionário para contar as ocorrências de cada estado do tabuleiro
+        state_counts = {}
+        for pieces in self.consecutive_plays:
+            # Convert the board state to an immutable representation (string or tuple) if necessary
+            pieces_str = str(pieces)  # Assuming `state` can be directly converted to string
+            if pieces_str in state_counts:
+                state_counts[pieces_str] += 1
+            else:
+                state_counts[pieces_str] = 1
+
+            # Check if any state occurs at least 3 times
+            if state_counts[pieces_str] >= 3:
+                return 0  # Returns 0 to indicate a draw
+
 
         pieces = sorted(self.pieces[self.current_player-1])
 
