@@ -1,7 +1,7 @@
 import pygame
 
 class Piece:
-    def __init__(self, board, piece, color, size):
+    def __init__(self, board, piece, player, color, size, father):
         self.row = piece[0]
         self.col = piece[1]
         self.color = color
@@ -9,7 +9,8 @@ class Piece:
         self.x = self.col * size + size / 2
         self.y = self.row * size + size / 2
 
-        self.piece_moves = board.piece_move(piece)
+        self.piece_moves = board.piece_move(piece, player)
+        self.father = (father)
 
     def __str__(self):
         return f'({self.row}, {self.col})'

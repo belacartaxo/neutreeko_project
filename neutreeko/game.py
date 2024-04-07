@@ -42,34 +42,49 @@ class NeutreekoGame:
                 color =  BLUE_1 if (row + col) % 2 == 0 else BLUE_2 # Determine the color of the current cell
                 pygame.draw.rect(screen, color, (col * CELL_SIZE, row * CELL_SIZE, CELL_SIZE, CELL_SIZE))  #Draw a rectangle representing the current cell on the screen
 
-    def create_piece_surface(self, pieces, screen):
+    def create_piece_surface(self, pieces, screen, clicked_piece):
         for i in range(len(pieces)):
-            self.game_pieces[i].clear()
-            for p in pieces[i]: # Pieces player 1
-                self.game_pieces[i].append(self.create_piece(p, PIECE_COLORS[i], screen))
+            if len(self.game_pieces[i]) == 0:
+                self.game_pieces[i] = [self.create_piece(p, i+1, PIECE_COLORS[i], screen) for p in pieces[i]]
+
+            else:
+                self.draw_piece(self.game_pieces[i], screen)
+                      
+        if clicked_piece:
+            self.available_pieces = [self.create_piece(p, self.board.current_player, GREEN, screen, clicked_piece) for p in clicked_piece.piece_moves]
+            return
         
         if len(self.available_pieces) > 0:
-            for p in self.available_pieces:
-                self.create_piece(p, GREEN, screen)
+            self.draw_piece(self.available_pieces, screen)
+
+    def draw_piece(self, pieces, screen):
+        for p in pieces:
+            p.draw(screen)
     
-    def create_piece(self, piece, color, screen):
-        piece = Piece(self.board, piece, color, CELL_SIZE)
+    def create_piece(self, piece, player, color, screen, father = None):
+        piece = Piece(self.board, piece, player, color, CELL_SIZE, father)
         piece.draw(screen)
         return piece
             
-    def update_screen(self, screen):
+    def update_screen(self, screen, clicked_piece = None):
         # Update the game screen with the board and pieces
         self.create_board_surface(screen)
-        self.create_piece_surface(self.board.pieces, screen)
+        self.create_piece_surface(self.board.pieces, screen, clicked_piece)
         pygame.display.flip()
     
     def check_click(self, screen, pos):
         for piece in self.game_pieces[self.board.current_player-1]:
             if piece.is_clicked(pos):
-                self.available_pieces = piece.piece_moves
-                self.update_screen(screen) #
-                break
-               
+                self.update_screen(screen, piece) 
+                return
+    
+        for piece in self.available_pieces:
+            if piece.is_clicked(pos):
+                self.board.move((piece.father.row, piece.father.col), (piece.row, piece.col))
+                self.available_pieces = []
+                self.game_pieces = [[],[]]
+                self.players_moved = True
+                return
 
         
     def run_game(self):
@@ -108,8 +123,8 @@ class NeutreekoGame:
                     pygame.time.wait(TIME) # wait a few seconds so we can view the moves
                     self.players_moved = True
                 self.update_screen(screen) # updates the screen after each movement
-                
                 # Check the winner
+        
                 if self.players_moved: 
                     if self.board.winner != -1:
                         text = f"Player {self.board.winner} wins!" if self.board.winner != 0 else "Draw!" # Determine the message to be displayed based on the winner
@@ -121,8 +136,8 @@ class NeutreekoGame:
                         pygame.quit() # Quit Pygame
                         return  # Exit the function, ending the game
                     # Switch player turn
-                    self.players_moved = False
                     self.board.current_player = 3 - self.board.current_player
+                    self.players_moved = False
             
             # If the screen has not been updated yet
             if not self.screen_update:

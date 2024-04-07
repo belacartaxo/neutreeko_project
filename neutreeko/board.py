@@ -38,14 +38,14 @@ class Board:
         # Return a list of available moves for the current player
         possible_moves = []
         for piece in self.pieces[self.current_player-1]: 
-            possible_moves.append((piece, p) for p in self.piece_move(piece))
+            possible_moves.append((piece, p) for p in self.piece_move(piece, self.current_player))
             # peças, peças que poden ser mechidas
         return possible_moves
 
-    def piece_move(self, piece):
+    def piece_move(self, piece, player):
         p_moves = []
         for func in self.move_functions:
-            funct_move = func(piece)
+            funct_move = func(piece, player)
             if funct_move:
                 p_moves.append(funct_move)
         return p_moves
@@ -53,10 +53,10 @@ class Board:
 
     # MOVE FUNCTIONS
     # VERTICAL
-    def vertical_up(self, piece):
+    def vertical_up(self, piece, player):
         # Attempt to move a piece upwards
         row, col = piece[0], piece[1]
-        if row == 0 or self.current_board[ row-1, col] != 0 or self.current_player != self.current_board[row, col]:
+        if row == 0 or self.current_board[ row-1, col] != 0 or player != self.current_board[row, col]:
             return None
      
         while row != 0:
@@ -68,10 +68,10 @@ class Board:
 
 
 
-    def vertical_down(self, piece): 
+    def vertical_down(self, piece, player): 
         # Attempt to move a piece downwards
         row, col = piece[0], piece[1]
-        if row == SIZE-1 or self.current_board[ row+1, col] != 0 or self.current_player != self.current_board[row, col]:
+        if row == SIZE-1 or self.current_board[ row+1, col] != 0 or player != self.current_board[row, col]:
             return None
         
         while row != SIZE-1:
@@ -84,10 +84,10 @@ class Board:
 
 
     #HORIZONTAL
-    def horizontal_left(self, piece):
+    def horizontal_left(self, piece, player):
         # Attempt to move a piece to the left
         row, col = piece[0], piece[1]
-        if col == 0 or self.current_board[ row, col-1] != 0 or self.current_player != self.current_board[row, col]: 
+        if col == 0 or self.current_board[ row, col-1] != 0 or player != self.current_board[row, col]: 
             return None
 
         while col != 0:
@@ -99,10 +99,10 @@ class Board:
 
 
 
-    def horizontal_right(self, piece):
+    def horizontal_right(self, piece, player):
         # Attempt to move a piece to the right
         row, col = piece[0], piece[1]
-        if col == SIZE-1 or self.current_board[ row, col+1] != 0 or self.current_player != self.current_board[row, col]: 
+        if col == SIZE-1 or self.current_board[ row, col+1] != 0 or player != self.current_board[row, col]: 
             return None
 
         while col != SIZE-1:
@@ -115,10 +115,10 @@ class Board:
 
 
     #DIAGONAL
-    def diagonal_up_left(self, piece):
+    def diagonal_up_left(self, piece, player):
         # Attempt to move a piece diagonally up and to the left
         row, col = piece[0], piece[1]
-        if row == 0 or col == 0 or self.current_board[row-1][col-1] != 0 or self.current_player != self.current_board[row, col]:
+        if row == 0 or col == 0 or self.current_board[row-1][col-1] != 0 or player != self.current_board[row, col]:
             return None
         
         while row != 0 and col != 0:
@@ -131,10 +131,10 @@ class Board:
 
 
 
-    def diagonal_up_right(self, piece):
+    def diagonal_up_right(self, piece, player):
         # Attempt to move a piece diagonally up and to the right
         row, col = piece[0], piece[1]
-        if row == 0 or col == SIZE-1 or self.current_board[row-1][col+1] != 0 or self.current_player != self.current_board[row, col]:
+        if row == 0 or col == SIZE-1 or self.current_board[row-1][col+1] != 0 or player != self.current_board[row, col]:
             return None
         
         while row != 0 and col != SIZE-1:
@@ -147,10 +147,10 @@ class Board:
 
 
 
-    def diagonal_down_left(self, piece):
+    def diagonal_down_left(self, piece, player):
         # Attempt to move a piece diagonally down and to the left
         row, col = piece[0], piece[1]
-        if row == SIZE-1 or col == 0 or self.current_board[row+1][col-1] != 0 or self.current_player != self.current_board[row, col]:
+        if row == SIZE-1 or col == 0 or self.current_board[row+1][col-1] != 0 or player != self.current_board[row, col]:
             return None
 
         while row != SIZE-1 and col != 0:
@@ -163,10 +163,10 @@ class Board:
 
 
 
-    def diagonal_down_right(self, piece):
+    def diagonal_down_right(self, piece, player):
         # Attempt to move a piece diagonally down and to the right
         row, col = piece[0], piece[1]
-        if row == SIZE-1 or col == SIZE-1 or self.current_board[row+1][col+1] != 0 or self.current_player != self.current_board[row, col]:
+        if row == SIZE-1 or col == SIZE-1 or self.current_board[row+1][col+1] != 0 or player != self.current_board[row, col]:
             return None
 
         while row != SIZE-1 and col != SIZE-1:
