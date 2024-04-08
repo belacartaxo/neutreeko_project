@@ -173,19 +173,17 @@ class Board:
         # SE TIVER 2 NA LINHA, UM SEGUIDO DO OUTRO
         # Define um conjunto com os pares de deltas válidos.
         valid_deltas = {(0, 1), (1, 0), (1, 1)}
-        deltap1_p3 = (abs(pieces[3][0] - pieces[1][0]), abs(pieces[3][1] - pieces[1][1]))
+        deltap1_p3 = (abs(pieces[2][0] - pieces[1][0]), abs(pieces[2][1] - pieces[1][1]))
+        cont = 0
         if deltap1_p2 in valid_deltas or deltap2_p3 in valid_deltas or deltap1_p3 in valid_deltas:
-            return 1
+            cont += 1
         # SE TIVER 2 NA LINHAS COM UM ESPAÇO ENTRE ELES
         valid_deltas_with_space = {(0, 2), (2, 0), (2, 2)}
-        if deltap1_p2 in valid_deltas_with_space:
-            return self.board[((pieces[0][0] + pieces[1][0]) // 2, (pieces[0][1] + pieces[1][1]) // 2)] == 0
-
-        elif deltap2_p3 in valid_deltas_with_space:
-            return self.board[((pieces[1][0] + pieces[2][0]) // 2, (pieces[1][1] + pieces[2][1]) // 2)] == 0
-
-        elif deltap1_p3 in valid_deltas_with_space:
-            return self.board[((pieces[0][0] + pieces[2][0]) // 2, (pieces[0][1] + pieces[2][1]) // 2)] == 0
-
-        return 0  # Retorna 0 se nenhuma condição for satisfeita.
+        if deltap1_p2 in valid_deltas_with_space and self.current_board[((pieces[0][0] + pieces[1][0]) // 2, (pieces[0][1] + pieces[1][1]) // 2)] == 0:
+            cont += 1
+        elif deltap2_p3 in valid_deltas_with_space and self.current_board[((pieces[1][0] + pieces[2][0]) // 2, (pieces[1][1] + pieces[2][1]) // 2)] == 0:
+             cont += 1
+        elif deltap1_p3 in valid_deltas_with_space and self.current_board[((pieces[0][0] + pieces[2][0]) // 2, (pieces[0][1] + pieces[2][1]) // 2)] == 0:
+             cont += 1
+        return cont  # Retorna 0 se nenhuma condição for satisfeita.
 

@@ -22,7 +22,7 @@ WIDTH_BUTTON = 250
 HEIGHT_BUTTON = 80
 WIDTH_BOX = 300
 HEIGHT_BOX = 100
-TIME = 300
+TIME = 1000
 PIECE_COLORS = (BLACK, WHITE)
 FONT_PATH = os.path.join("assets", "font", "Bungee_Poppins", "Bungee", "Bungee-Regular.ttf")
 
@@ -120,11 +120,10 @@ class NeutreekoGame:
 
                     if self.board.current_player == 1:
                         self.player[0](self)
-                        self.game_pieces[0] = []
                     else:
                         self.player[1](self)  
-                        self.game_pieces[1] = [] 
 
+                    self.game_pieces = [[],[]] 
                     pygame.time.wait(TIME)
                     self.players_moved = True
                 self.update_board_screen(screen)

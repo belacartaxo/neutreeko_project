@@ -6,7 +6,7 @@ from ai.min_max import *
 # Define the main function of the program
 def main():
     # Create an instance of the NeutreekoGame, passing execute_random_move as the function to control moves for both players
-    game = NeutreekoGame(None, execute_minimax_move(evaluate_f1, 5))
+    game = NeutreekoGame(execute_minimax_move(evaluate_f1, 2), execute_minimax_move(evaluate_f2, 2))
     game.run_game() # Start the game
 
 main()# Call the main function to start the program
