@@ -5,6 +5,7 @@ import os
 from .board import Board
 from .piece import Piece
 
+# --------- Graph ----------#
 SIZE =  5
 WHITE = (255, 255, 255) 
 BLACK = (0, 0, 0)
@@ -116,6 +117,7 @@ class NeutreekoGame:
 
             if self.button_clicked:
                 if self.player[self.board.current_player-1]:
+
                     if self.board.current_player == 1:
                         self.player[0](self)
                     else:
@@ -163,4 +165,5 @@ class NeutreekoGame:
 
 def execute_random_move(game):
     new_pieces = random.choice(game.board.available_moves())
+
     game.board.move(new_pieces[0], new_pieces[1])
