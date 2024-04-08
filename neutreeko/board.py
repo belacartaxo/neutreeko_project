@@ -159,16 +159,14 @@ class Board:
         pieces = sorted(self.pieces[self.current_player - 1])
 
         # Calcula a diferença entre as coordenadas das duas primeiras peças.
-        delta_x1 = pieces[1][0] - pieces[0][0]
-        delta_y1 = pieces[1][1] - pieces[0][1]
+        deltap1_p2 = (pieces[1][0] - pieces[0][0], pieces[1][1] - pieces[0][1])
 
         # Calcula a diferença entre as coordenadas das duas últimas peças.
-        delta_x2 = pieces[2][0] - pieces[1][0]
-        delta_y2 = pieces[2][1] - pieces[1][1]
+        deltap2_p3 = (pieces[2][0] - pieces[1][0],pieces[2][1] - pieces[1][1])
 
         # Verifica se as diferenças entre as peças consecutivas são iguais.
         # Isso indica que as peças estão alinhadas horizontalmente, verticalmente ou diagonalmente.
-        if (delta_x1, delta_y1) == (delta_x2, delta_y2):
+        if deltap1_p2 == deltap2_p3 and deltap1_p2[0] <= 1 and deltap1_p2[1] <=1:
             return self.current_player
 
         return -1
