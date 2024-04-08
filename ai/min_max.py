@@ -1,4 +1,3 @@
-from copy import deepcopy
 
 def execute_minimax_move(game, evaluate_func, depth):
     def execute_minimax_move_aux(game):
@@ -7,15 +6,14 @@ def execute_minimax_move(game, evaluate_func, depth):
         #--------------------------------------------------#
         best_move = None
         best_eval = float('-inf')
-        game_copy = deepcopy(game)
-        for move in game_copy.board.available_moves:
-            new_state = game_copy.board.move(move) #
+        for move in game.board.available_moves:
+            new_state = game.board.move(move)
             # maximizing = False because we are checking for the best moves for the opponent after this move
-            new_state_eval = minimax(new_state, depth - 1, float('-inf'), float('+inf'), False, game_copy.board.player, evaluate_func)
+            new_state_eval = minimax(new_state, depth - 1, float('-inf'), float('+inf'), False, game.board.current_player, evaluate_func)
             if new_state_eval > best_eval:
                 best_move = new_state
                 best_eval = new_state_eval
-        game_copy.board = best_move
+        game.board = best_move
         
     return execute_minimax_move_aux
 

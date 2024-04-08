@@ -46,7 +46,6 @@ class NeutreekoGame:
                 pygame.draw.rect(screen, color, (SPACE_SCREEN_BOARD/2+col * CELL_SIZE, SPACE_SCREEN_BOARD/2+row * CELL_SIZE, CELL_SIZE, CELL_SIZE))
 
     def create_piece_surface(self, pieces, screen, clicked_piece):
-        print(pieces)
         for i in range(len(pieces)):
             if len(self.game_pieces[i]) == 0:
                 self.game_pieces[i] = [self.create_piece(p, i+1, PIECE_COLORS[i], screen) for p in pieces[i]]
@@ -85,7 +84,7 @@ class NeutreekoGame:
     
         for piece in self.available_pieces:
             if piece.is_clicked(pos):
-                self.board.move((piece.father.row, piece.father.col), (piece.row, piece.col))
+                self.board = self.board.move((piece.father.row, piece.father.col), (piece.row, piece.col))
                 self.available_pieces = []
                 self.game_pieces = [[],[]]
                 self.players_moved = True
