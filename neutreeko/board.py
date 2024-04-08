@@ -37,7 +37,7 @@ class Board:
     def available_moves(self):
         possible_moves = []
         for piece in self.pieces[self.current_player-1]: 
-            possible_moves.append((piece, p) for p in self.piece_move(piece, self.current_player))
+            possible_moves.extend((piece, p) for p in self.piece_move(piece, self.current_player))
         return possible_moves
 
     def piece_move(self, piece, player):

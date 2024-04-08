@@ -46,6 +46,7 @@ class NeutreekoGame:
                 pygame.draw.rect(screen, color, (SPACE_SCREEN_BOARD/2+col * CELL_SIZE, SPACE_SCREEN_BOARD/2+row * CELL_SIZE, CELL_SIZE, CELL_SIZE))
 
     def create_piece_surface(self, pieces, screen, clicked_piece):
+        print(pieces)
         for i in range(len(pieces)):
             if len(self.game_pieces[i]) == 0:
                 self.game_pieces[i] = [self.create_piece(p, i+1, PIECE_COLORS[i], screen) for p in pieces[i]]
@@ -119,9 +120,11 @@ class NeutreekoGame:
                 if self.player[self.board.current_player-1]:
 
                     if self.board.current_player == 1:
-                        self.board = self.player[0](self);
+                        self.player[0](self)
+                        self.game_pieces[0] = []
                     else:
-                        self.board = self.player[1](self)   
+                        self.player[1](self)  
+                        self.game_pieces[1] = [] 
 
                     pygame.time.wait(TIME)
                     self.players_moved = True
@@ -166,7 +169,5 @@ class NeutreekoGame:
 
 def execute_random_move(game):
     new_pieces = random.choice(game.board.available_moves())
-    print("AQUIIII")
-    print('TAMANHO', len(new_pieces))
-    print('aAQUI 2')
-    return game.board.move(new_pieces[0], new_pieces[1])
+    game.board = game.board.move(new_pieces[0], new_pieces[1])
+
