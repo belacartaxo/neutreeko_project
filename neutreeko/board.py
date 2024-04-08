@@ -151,25 +151,25 @@ class Board:
 
             if state_counts[pieces_str] >= 3:
                 return 0  
+            
+        return self.check_line()
 
-        pieces = sorted(self.pieces[self.current_player-1])
+    def check_line(self):
+        # Ordena as peças com base em suas posições.
+        pieces = sorted(self.pieces[self.current_player - 1])
 
-        if (pieces[0][0], pieces[0][1]+1) == (pieces[1][0], pieces[1][1]):
-            if (pieces[1][0], pieces[1][1]+1) == (pieces[2][0], pieces[2][1]):
-                return self.current_player
-            return -1
+        # Calcula a diferença entre as coordenadas das duas primeiras peças.
+        delta_x1 = pieces[1][0] - pieces[0][0]
+        delta_y1 = pieces[1][1] - pieces[0][1]
 
-        if (pieces[0][0]+1, pieces[0][1]) == (pieces[1][0], pieces[1][1]):
-            if (pieces[1][0]+1, pieces[1][1]) == (pieces[2][0], pieces[2][1]):
-                  return self.current_player
-            return -1
+        # Calcula a diferença entre as coordenadas das duas últimas peças.
+        delta_x2 = pieces[2][0] - pieces[1][0]
+        delta_y2 = pieces[2][1] - pieces[1][1]
 
-        if (pieces[0][0]+1, pieces[0][1]+1) == (pieces[1][0], pieces[1][1]):
-            if (pieces[1][0]+1, pieces[1][1]+1) == (pieces[2][0], pieces[2][1]):
-                return self.current_player
-            return -1
+        # Verifica se as diferenças entre as peças consecutivas são iguais.
+        # Isso indica que as peças estão alinhadas horizontalmente, verticalmente ou diagonalmente.
+        if (delta_x1, delta_y1) == (delta_x2, delta_y2):
+            return self.current_player
 
-        if (pieces[0][0]+1, pieces[0][1]-1) == (pieces[1][0], pieces[1][1]):
-            if (pieces[1][0]+1, pieces[1][1]-1) == (pieces[2][0], pieces[2][1]):
-                return self.current_player
-        return -1 
+        return -1
+
