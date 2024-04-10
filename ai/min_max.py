@@ -44,10 +44,10 @@ def minimax(state, depth, alpha, beta, maximizing, player, evaluate_func): #stat
     
 # Heuristic functions
 def evaluate_f1(board): #Contagem de Alinhamentos Potenciais
-    return board.check_line(3, board.current_player) - board.check_line(3, 3-board.current_player)
+    return board.check_victory(board.current_player) - board.check_victory( 3-board.current_player)
 
 def evaluate_f2(board):
-    return (board.check_line(3, board.current_player) - board.check_line(3, 3-board.current_player)) * 100 + board.check_line(2, board.current_player) - board.check_line(2, 3-board.current_player)
+    return (board.check_victory(board.current_player) - board.check_victory(3-board.current_player)) * 100 + board.check_imminent_victory(board.current_player) - board.check_imminent_victory(3-board.current_player)
 
 '''def evaluate_f3(state):
     return 100 * evaluate_f1(state) + state.central(1) - state.central(2)

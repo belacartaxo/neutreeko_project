@@ -124,16 +124,20 @@ class NeutreekoGame:
                     pygame.quit()
                     sys.exit()
                 elif event.type == pygame.MOUSEBUTTONDOWN:
-                    if not self.rules_button_clicked and rules_button_rect.collidepoint(event.pos):
-                        self.rules_button_clicked = True
-                        self.update_rules_screen(screen, font_2, font_3)
-                        self.screen_update = False
-                    elif not self.rules_button_clicked and not self.start_button_clicked and start_button_rect.collidepoint(event.pos):
+                    #clique no botâo de iniciar
+                    if not self.rules_button_clicked and not self.start_button_clicked and start_button_rect.collidepoint(event.pos):
                         self.start_button_clicked = True
                         self.update_board_screen(screen)
+                    #clique nas peças para pegas as jogadas
                     elif self.start_button_clicked and self.player[self.board.current_player-1] is None:
                         mouse_pos = pygame.mouse.get_pos()
                         self.check_click(screen, mouse_pos)
+                    #clique no botão rules
+                    elif not self.rules_button_clicked and rules_button_rect.collidepoint(event.pos):
+                        self.rules_button_clicked = True
+                        self.update_rules_screen(screen, font_2, font_3)
+                        self.screen_update = False
+                    
                               
 
             if self.start_button_clicked:

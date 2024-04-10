@@ -141,6 +141,43 @@ class Board:
         return (row, col)
 
     def update_winner(self):
+        if self.check_draw():
+            return 0
+        if self.check_victory(self.current_player):
+            return self.current_player
+        return -1
+
+    def check_victory(self, player):
+        pieces = sorted(self.pieces[player - 1])
+        deltap1_p2 = (pieces[1][0] - pieces[0][0], pieces[1][1] - pieces[0][1])
+        deltap2_p3 = (pieces[2][0] - pieces[1][0], pieces[2][1] - pieces[1][1])
+        print(deltap1_p2, deltap2_p3)
+        return deltap1_p2 == deltap2_p3 and deltap1_p2[0] <= 1 and deltap1_p2[1] <=1
+   
+    
+    def check_imminent_victory(self, player):
+        pieces = sorted(self.pieces[player - 1])
+        deltap1_p2 = (pieces[1][0] - pieces[0][0], pieces[1][1] - pieces[0][1])
+        deltap2_p3 = (pieces[2][0] - pieces[1][0], pieces[2][1] - pieces[1][1])
+        deltap1_p3 = (pieces[2][0] - pieces[0][0], pieces[2][1] - pieces[0][1])
+        valid_deltas = {(0, 1), (1, 0), (1, 1), (0, -1), (1, -1)}
+        valid_deltas_with_space = {(0, 2), (2, 0), (2, 2), (0, -2), (2, -2)}
+        cont = 0
+
+        if deltap1_p2 in valid_deltas or deltap2_p3 in valid_deltas or deltap1_p3 in valid_deltas:
+            cont += 1
+            #TO DO - verificar se há espaços vazios antes ou depois das peças
+            
+        if deltap1_p2 in valid_deltas_with_space and self.current_board[((pieces[0][0] + pieces[1][0]) // 2, (pieces[0][1] + pieces[1][1]) // 2)] == 0:
+            cont += 1
+        elif deltap2_p3 in valid_deltas_with_space and self.current_board[((pieces[1][0] + pieces[2][0]) // 2, (pieces[1][1] + pieces[2][1]) // 2)] == 0:
+             cont += 1
+        elif deltap1_p3 in valid_deltas_with_space and self.current_board[((pieces[0][0] + pieces[2][0]) // 2, (pieces[0][1] + pieces[2][1]) // 2)] == 0:
+             cont += 1
+
+        return cont 
+    
+    def check_draw(self):
         state_counts = {}
         for pieces in self.consecutive_plays:
             pieces_str = str(pieces)
@@ -150,40 +187,7 @@ class Board:
                 state_counts[pieces_str] = 1
 
             if state_counts[pieces_str] >= 3:
-                return 0 
-        if self.check_line(3, self.current_player):
-            return self.current_player
-        return -1
+                return 1
+        return None
 
-    def check_line(self, n, player):
-        # Ordena as peças com base em suas posições.
-        pieces = sorted(self.pieces[player - 1])
-
-        # Calcula a diferença entre as coordenadas das duas primeiras peças.
-        deltap1_p2 = (abs(pieces[1][0] - pieces[0][0]), abs(pieces[1][1] - pieces[0][1]))
-
-        # Calcula a diferença entre as coordenadas das duas últimas peças.
-        deltap2_p3 = (abs(pieces[2][0] - pieces[1][0]), abs(pieces[2][1] - pieces[1][1]))
-
-        # Verifica se as diferenças entre as peças consecutivas são iguais.
-        # Isso indica que as peças estão alinhadas horizontalmente, verticalmente ou diagonalmente.
-        if n == 3:
-            return deltap1_p2 == deltap2_p3 and deltap1_p2[0] <= 1 and deltap1_p2[1] <=1
-        
-        # SE TIVER 2 NA LINHA, UM SEGUIDO DO OUTRO
-        # Define um conjunto com os pares de deltas válidos.
-        valid_deltas = {(0, 1), (1, 0), (1, 1)}
-        deltap1_p3 = (abs(pieces[2][0] - pieces[1][0]), abs(pieces[2][1] - pieces[1][1]))
-        cont = 0
-        if deltap1_p2 in valid_deltas or deltap2_p3 in valid_deltas or deltap1_p3 in valid_deltas:
-            cont += 1
-        # SE TIVER 2 NA LINHAS COM UM ESPAÇO ENTRE ELES
-        valid_deltas_with_space = {(0, 2), (2, 0), (2, 2)}
-        if deltap1_p2 in valid_deltas_with_space and self.current_board[((pieces[0][0] + pieces[1][0]) // 2, (pieces[0][1] + pieces[1][1]) // 2)] == 0:
-            cont += 1
-        elif deltap2_p3 in valid_deltas_with_space and self.current_board[((pieces[1][0] + pieces[2][0]) // 2, (pieces[1][1] + pieces[2][1]) // 2)] == 0:
-             cont += 1
-        elif deltap1_p3 in valid_deltas_with_space and self.current_board[((pieces[0][0] + pieces[2][0]) // 2, (pieces[0][1] + pieces[2][1]) // 2)] == 0:
-             cont += 1
-        return cont  # Retorna 0 se nenhuma condição for satisfeita.
 
