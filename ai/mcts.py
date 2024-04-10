@@ -1,40 +1,58 @@
+from copy import deepcopy
+import math
+import random
+
 class MCTSNode:
-    def __init__(self, game, parent=None, move=None):
-        self.state = game.board.pieces
+    def __init__(self, game, node, parent=None):
+        self.game = deepcopy(game)
+        self.node = node
         self.parent = parent
-        self.move = move
-        self.children = []
+        self.children = [] #conforme os nos forem analisados vai saindo daqui self.untried_moves e vai para o novo estado
         self.wins = 0
         self.visits = 0
-        self.unexplored_moves = self.get_possible_moves(self.state)
+        self.untried_moves = game.board.available_moves() # game.board.available_moves
 
-    def get_possible_moves(self, state):
-        # Esta função precisa ser implementada com base na lógica do jogo.
-        pass
-
-    def select_child(self):
-        # Implementação da seleção com base em UCB1 ou outra política.
-        pass
+    def UCTSelectChild(self):
+        '''
+        Utiliza a fórmula UCT (Upper Confidence Bound 1 applied to trees) para selecionar um dos filhos para exploração. Escolhe o filho com o valor UCT mais alto, que equilibra a exploração de novos movimentos com a explotação de movimentos conhecidos por serem bons. A fórmula leva em consideração tanto as vitórias relativas do filho quanto a raiz quadrada do logaritmo das visitas do pai dividido pelo número de visitas ao filho, promovendo um equilíbrio entre exploração e explotação.
+        '''
+        return max(self.children, key=lambda child: child.wins / child.visits + math.sqrt(2 * math.log(self.visits) / child.visits))
 
     def expand(self):
-        # Escolhe um movimento dos não explorados e cria um novo nó filho.
-        pass
-
-    def simulate(self):
-        # Simula um jogo a partir deste nó e retorna o resultado.
-        pass
+        move = self.untried_moves.pop()
+        new_game = deepcopy(self.game)
+        new_game.board.move(move[0], move[1])
+        child_node = MCTSNode(new_game, move[1], self)
+        self.children.append(child_node)
+        return child_node
 
     def update(self, result):
-        # Atualiza este nó com o resultado da simulação.
-        pass
+        self.visits += 1
+        if result == self.game.board.current_player:
+            self.wins += 1
+        elif result != 'Draw':
+            self.wins -= 1
 
-def MCTS(root_state, iterations=1000):
-    root_node = MCTSNode(state=root_state)
-    
+def MCTS(root, iterations=1000):
     for _ in range(iterations):
-        node = root_node
-        # Passos de Seleção, Expansão, Simulação e Retropropagação.
-        pass
+        node = root
+        game = deepcopy(root.game)
 
-    # Retorna o melhor movimento após as iterações do MCTS.
-    return best_move
+        # Seleção
+        while node.untried_moves == [] and node.children != []:
+            node = node.UCTSelectChild()
+            game.board.move(node.father, node.node)
+
+        # Expansão
+        if node.untried_moves != []:
+            node = node.expand()
+
+        # Simulação
+        while game.board.update_winner() == -1:
+            move = random.choice(game.board.get_valid_moves())
+            game.move(move[0], move[1])
+
+        # Retropropagação
+        while node is not None:
+            node.update(game.update_winner())
+            node = node.parent
