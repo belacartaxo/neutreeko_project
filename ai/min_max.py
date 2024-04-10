@@ -35,7 +35,6 @@ def minimax(state, depth, maximizing, player, evaluate_func):
         return min_eval
     
 # Heuristic functions
-<<<<<<< HEAD
 def evaluate_f1(board): #Contagem de Alinhamentos Potenciais
     return board.check_victory(board.current_player) - board.check_victory( 3-board.current_player)
 
