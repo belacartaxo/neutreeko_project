@@ -31,7 +31,8 @@ class NeutreekoGame:
         self.initial_position = [(4, 1),(1, 2), (4, 3)], [(0,1), (3, 2), (0,3)]
         self.board = Board(self.initial_position)
         self.player =[ ai1, ai2]
-        self.button_clicked = False
+        self.start_button_clicked = False
+        self.rules_button_clicked = False
         self.screen_update = False
         self.mouse_over_button = False
         self.game_pieces = [[], []]
@@ -76,6 +77,9 @@ class NeutreekoGame:
     def update_home_screen(self, screen):
         pygame.draw.rect(screen, GREEN_1, (0, 0, SCREEN_SIZE, SCREEN_SIZE))
     
+    def update_rules_screen(self, screen):
+        pygame.draw.rect(screen, GREEN_1, (0, 0, SCREEN_SIZE, SCREEN_SIZE))
+
     def check_click(self, screen, pos):
         for piece in self.game_pieces[self.board.current_player-1]:
             if piece.is_clicked(pos):
@@ -108,14 +112,47 @@ class NeutreekoGame:
                     pygame.quit()
                     sys.exit()
                 elif event.type == pygame.MOUSEBUTTONDOWN:
-                    if not self.button_clicked and start_button_rect.collidepoint(event.pos):
-                        self.button_clicked = True
+                    if not self.rules_button_clicked and rules_button_rect.collidepoint(event.pos):
+                        self.rules_button_clicked = True
+                        self.update_rules_screen(screen)
+                    elif not self.start_button_clicked and start_button_rect.collidepoint(event.pos):
+                        self.start_button_clicked = True
                         self.update_board_screen(screen)
-                    elif self.button_clicked and self.player[self.board.current_player-1] is None:
+                    elif self.start_button_clicked and self.player[self.board.current_player-1] is None:
                         mouse_pos = pygame.mouse.get_pos()
                         self.check_click(screen, mouse_pos)
 
-            if self.button_clicked:
+            if self.rules_button_clicked:
+                if self.screen_update:
+                    self.update_rules_screen(screen)
+                    pygame.draw.rect(screen, GREEN_3, (50, 100, 500, 400), border_radius=20)
+                    pygame.display.flip()
+                    self.create_text(screen, "Rules", font_2, WHITE, 30)
+                    self.create_text(screen, "Black pieces start.", font_1, WHITE, 120)
+                    self.create_text(screen, "A draw is decide if", font_1, WHITE, 190)
+                    self.create_text(screen, "the same board position", font_1, WHITE, 230)
+                    self.create_text(screen, "repeats itself 5 times", font_1, WHITE, 270)
+                    self.create_text(screen, "To win, make 3 pieces", font_1, WHITE, 310)
+                    self.create_text(screen, "in a row.", font_1, WHITE, 350)
+                    #self.draw_button(screen, "Return", font_1, return_button_rect,(SCREEN_SIZE/2, start_button_rect.y))
+                    '''self.update_rules_screen(screen)
+                    rect_x = (SCREEN_SIZE - WIDTH_BOX) // 2
+                    rect_y = (SCREEN_SIZE - HEIGHT_BOX * 4) // 2 
+                    pygame.draw.rect(screen, GREEN_3, (rect_x, rect_y, WIDTH_BOX, HEIGHT_BOX * 4), border_radius=20)
+                    pygame.display.flip()
+                    text_start_y = rect_y + 20  
+                    line_height = 40  
+                    texts = ["Rules", "Black pieces start.", "A draw is decide if", "the same board position",
+                            "repeats itself 5 times", "To win, make 3 pieces", "in a row."]
+                    for i, text in enumerate(texts):
+                        if i == 0:
+                            self.create_text(screen, text, font_2, WHITE, (rect_x + WIDTH_BOX // 2, text_start_y + i * line_height))
+                        else:
+                            self.create_text(screen, text, font_1, WHITE, (rect_x + 20, text_start_y + i * line_height))'''
+                    self.screen_update = False
+                              
+
+            if self.start_button_clicked:
                 if self.player[self.board.current_player-1]:
 
                     if self.board.current_player == 1:
@@ -138,7 +175,7 @@ class NeutreekoGame:
                     self.board.current_player = 3 - self.board.current_player
                     self.players_moved = False
             
-            if not self.screen_update:
+            if not self.rules_button_clicked and not self.start_button_clicked and not self.screen_update:
                 self.update_home_screen(screen)
                 self.create_text(screen, "NEUTREEKO", font_2, WHITE, 100)
                 self.draw_button(screen, 'Start Game', font_1, start_button_rect,(SCREEN_SIZE/2, start_button_rect.y))
