@@ -42,15 +42,3 @@ def minimax_alpha_beta(state, depth, alpha, beta, maximizing, player, evaluate_f
                 break
         return min_eval
     
-# Heuristic functions
-def evaluate_f1(board): #Contagem de Alinhamentos Potenciais
-    return board.check_line(3, board.current_player) - board.check_line(3, 3-board.current_player)
-
-def evaluate_f2(board):
-    return (board.check_line(3, board.current_player) - board.check_line(3, 3-board.current_player)) * 100 + board.check_line(2, board.current_player) - board.check_line(2, 3-board.current_player)
-
-'''def evaluate_f3(state):
-    return 100 * evaluate_f1(state) + state.central(1) - state.central(2)
-
-def evaluate_f4(state):
-    return 5 * evaluate_f2(state) + evaluate_f3(state)'''

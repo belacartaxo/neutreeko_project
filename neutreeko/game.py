@@ -113,7 +113,7 @@ class NeutreekoGame:
         pygame.display.set_caption("Neutreeko")
         font_1 = pygame.font.Font(FONT_PATH1, 30)
         font_2 = pygame.font.Font(FONT_PATH1, 60)
-        font_3 = pygame.font.Font(FONT_PATH2, 20)
+        font_3 = pygame.font.Font(FONT_PATH2, 18)
         start_button_rect = pygame.Rect((SCREEN_SIZE - WIDTH_BUTTON)/2, 200, WIDTH_BUTTON, HEIGHT_BUTTON)
         rules_button_rect = pygame.Rect((SCREEN_SIZE - WIDTH_BUTTON)/2, 300, WIDTH_BUTTON, HEIGHT_BUTTON)
         obs_button_rect = pygame.Rect((SCREEN_SIZE - WIDTH_BUTTON)/2, 400, WIDTH_BUTTON, HEIGHT_BUTTON)

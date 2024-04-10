@@ -34,10 +34,11 @@ class Board:
         board_copy.winner = board_copy.update_winner()
         return board_copy
 
-    def available_moves(self):
+    def available_moves(self, player = None):
+        if player == None: player = self.current_player
         possible_moves = []
-        for piece in self.pieces[self.current_player-1]: 
-            possible_moves.extend((piece, p) for p in self.piece_move(piece, self.current_player))
+        for piece in self.pieces[player-1]: 
+            possible_moves.extend((piece, p) for p in self.piece_move(piece, player))
         return possible_moves
 
     def piece_move(self, piece, player):
@@ -148,35 +149,34 @@ class Board:
         return -1
 
     def check_victory(self, player):
-        pieces = sorted(self.pieces[player - 1])
-        deltap1_p2 = (pieces[1][0] - pieces[0][0], pieces[1][1] - pieces[0][1])
-        deltap2_p3 = (pieces[2][0] - pieces[1][0], pieces[2][1] - pieces[1][1])
-        print(deltap1_p2, deltap2_p3)
-        return deltap1_p2 == deltap2_p3 and deltap1_p2[0] <= 1 and deltap1_p2[1] <=1
+        deltap1_p2, deltap2_p3, _ = self.calculate_deltas(player)
+        return deltap1_p2 == deltap2_p3 and deltap1_p2[0] <= 1 and deltap1_p2[1] >= -1 and deltap1_p2[1] <=1
    
     
     def check_imminent_victory(self, player):
-        pieces = sorted(self.pieces[player - 1])
-        deltap1_p2 = (pieces[1][0] - pieces[0][0], pieces[1][1] - pieces[0][1])
-        deltap2_p3 = (pieces[2][0] - pieces[1][0], pieces[2][1] - pieces[1][1])
-        deltap1_p3 = (pieces[2][0] - pieces[0][0], pieces[2][1] - pieces[0][1])
-        valid_deltas = {(0, 1), (1, 0), (1, 1), (0, -1), (1, -1)}
-        valid_deltas_with_space = {(0, 2), (2, 0), (2, 2), (0, -2), (2, -2)}
+        deltas = self.calculate_deltas(player)
+        points = [(0,1), (1, 2), (0, 2)]
+        valid_deltas = {(0, 1), (1, 0), (1, 1), (1, -1)}
+        valid_deltas_with_space = {(0, 2), (2, 0), (2, 2), (2, -2)}
         cont = 0
 
-        if deltap1_p2 in valid_deltas or deltap2_p3 in valid_deltas or deltap1_p3 in valid_deltas:
-            cont += 1
-            #TO DO - verificar se há espaços vazios antes ou depois das
-            
-        if deltap1_p2 in valid_deltas_with_space and self.current_board[((pieces[0][0] + pieces[1][0]) // 2, (pieces[0][1] + pieces[1][1]) // 2)] == 0:
-            cont += 1
-        elif deltap2_p3 in valid_deltas_with_space and self.current_board[((pieces[1][0] + pieces[2][0]) // 2, (pieces[1][1] + pieces[2][1]) // 2)] == 0:
-             cont += 1
-        elif deltap1_p3 in valid_deltas_with_space and self.current_board[((pieces[0][0] + pieces[2][0]) // 2, (pieces[0][1] + pieces[2][1]) // 2)] == 0:
-             cont += 1
+        for i in range(len(points)):
+            if deltas[i] in valid_deltas or deltas[i] in valid_deltas_with_space:
+                cont += self.check_spaces(points[i], points[i], deltas[i])
 
         return cont 
     
+    def check_spaces(self, p1, p2, delta):
+        if delta[0] == 2 or delta[1] == 2:
+            return self.current_board[((p1[0] + p2[0]) // 2, (p1[1] + p2[1]) // 2)] == 0
+        other_points = [(p1[0] - delta[0], p1[1] - delta[1]), (p2[0] + delta[0], p2[1] + delta[1])]
+        cont = 0
+        for p in other_points:
+            if p[0] >= 0 and p[0] <= SIZE-1 and p[1] >= 0 and p[1] <= SIZE-1 and self.current_board[p] == 0:
+                cont +=1
+
+        return cont
+
     def check_draw(self):
         state_counts = {}
         for pieces in self.consecutive_plays:
@@ -190,4 +190,11 @@ class Board:
                 return 1
         return None
 
+    def calculate_deltas(self, player):
+        """Calcula e retorna as diferenças entre as peças de um jogador."""
+        pieces = sorted(self.pieces[player - 1])
+        deltap1_p2 = (pieces[1][0] - pieces[0][0], pieces[1][1] - pieces[0][1])
+        deltap2_p3 = (pieces[2][0] - pieces[1][0], pieces[2][1] - pieces[1][1])
+        deltap1_p3 = (pieces[2][0] - pieces[0][0], pieces[2][1] - pieces[0][1])
+        return deltap1_p2, deltap2_p3, deltap1_p3
 

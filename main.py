@@ -2,12 +2,13 @@
 from neutreeko.game import NeutreekoGame, execute_random_move
 from ai.min_max_alpha_beta import *
 from ai.min_max import *
+from ai.heuristics import *
 
 
 # Define the main function of the program
 def main():
     # Create an instance of the NeutreekoGame, passing execute_random_move as the function to control moves for both players
-    game = NeutreekoGame(None,execute_minimax_move(evaluate_f1, 3))
+    game = NeutreekoGame(execute_minimax_move(evaluate_f1, 3),execute_minimax_move(evaluate_f4, 3))
     game.run_game() # Start the game
 
 main()# Call the main function to start the program
