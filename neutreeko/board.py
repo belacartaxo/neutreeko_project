@@ -166,7 +166,7 @@ class Board:
 
         if deltap1_p2 in valid_deltas or deltap2_p3 in valid_deltas or deltap1_p3 in valid_deltas:
             cont += 1
-            #TO DO - verificar se há espaços vazios antes ou depois das peças
+            #TO DO - verificar se há espaços vazios antes ou depois das
             
         if deltap1_p2 in valid_deltas_with_space and self.current_board[((pieces[0][0] + pieces[1][0]) // 2, (pieces[0][1] + pieces[1][1]) // 2)] == 0:
             cont += 1
