@@ -24,7 +24,7 @@ WIDTH_SMALL_BUTTON = 100
 HEIGHT_SMALL_BUTTON = 40
 WIDTH_BOX = 300
 HEIGHT_BOX = 100
-TIME = 1000
+TIME = 500
 PIECE_COLORS = (BLACK, WHITE)
 FONT_PATH1 = os.path.join("assets", "font", "Bungee_Poppins", "Bungee", "Bungee-Regular.ttf")
 FONT_PATH2 = os.path.join("assets", "font", "Bungee_Poppins", "Poppins", "Poppins-Regular.ttf")
@@ -82,15 +82,16 @@ class NeutreekoGame:
     
     def update_rules_screen(self, screen, font1, font2, font3, back_button):
         pygame.draw.rect(screen, GREEN_1, (0, 0, SCREEN_SIZE, SCREEN_SIZE))
-        pygame.draw.rect(screen, GREEN_3, (50, 100, 500, 400), border_radius=20)
+        pygame.draw.rect(screen, GREEN_3, (50, 110, 500, 380), border_radius=20)
         pygame.display.flip()
         self.create_text(screen, "Rules", font1, WHITE, 30)
-        self.create_text(screen, "Black pieces start.", font2, WHITE, 120)
-        self.create_text(screen, "A draw is decide if", font2, WHITE, 190)
-        self.create_text(screen, "the same board position", font2, WHITE, 230)
-        self.create_text(screen, "repeats itself 5 times", font2, WHITE, 270)
-        self.create_text(screen, "To win, make 3 pieces", font2, WHITE, 310)
-        self.create_text(screen, "in a row.", font2, WHITE, 350)
+        self.create_text(screen, "Black pieces always start.", font2, WHITE, 140)
+        self.create_text(screen, "Move vertically, horizontally, or diagonally", font2, WHITE, 200)
+        self.create_text(screen, "to the last open spot on the board.", font2, WHITE, 240)
+        self.create_text(screen, "A draw occurs if the same board", font2, WHITE, 280)
+        self.create_text(screen, "configuration repeats 3 times", font2, WHITE, 320)
+        self.create_text(screen, "Win by aligning your 3 pieces in a row,", font2, WHITE, 380)
+        self.create_text(screen, "either vertically, horizontally, or diagonally.", font2, WHITE, 420)
         self.draw_button(screen, 'Back', font3, back_button,(back_button.x+WIDTH_SMALL_BUTTON/2, back_button.y-HEIGHT_BUTTON/4))
         self.rules_button_clicked = True
 
