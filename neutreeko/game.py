@@ -117,6 +117,7 @@ class NeutreekoGame:
         start_button_rect = pygame.Rect((SCREEN_SIZE - WIDTH_BUTTON)/2, 200, WIDTH_BUTTON, HEIGHT_BUTTON)
         rules_button_rect = pygame.Rect((SCREEN_SIZE - WIDTH_BUTTON)/2, 300, WIDTH_BUTTON, HEIGHT_BUTTON)
         obs_button_rect = pygame.Rect((SCREEN_SIZE - WIDTH_BUTTON)/2, 400, WIDTH_BUTTON, HEIGHT_BUTTON)
+        back_button_rect= pygame.Rect((SCREEN_SIZE - WIDTH_BUTTON)/2, 700, WIDTH_BUTTON, HEIGHT_BUTTON)
 
         while True: 
             for event in pygame.event.get(): 
@@ -133,7 +134,7 @@ class NeutreekoGame:
                         mouse_pos = pygame.mouse.get_pos()
                         self.check_click(screen, mouse_pos)
                     #clique no botão rules
-                    elif not self.rules_button_clicked and rules_button_rect.collidepoint(event.pos):
+                    elif not self.rules_button_clicked and not self.start_button_clicked and rules_button_rect.collidepoint(event.pos):
                         self.rules_button_clicked = True
                         self.update_rules_screen(screen, font_2, font_3)
                         self.screen_update = False
