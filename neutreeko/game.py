@@ -46,7 +46,7 @@ class NeutreekoGame:
         self.game_pieces = [[], []]
         self.players_moved = False
         self.available_pieces = []
-        
+
     def create_board_surface(self, screen):
         pygame.draw.rect(screen, BLACK, (SPACE_SCREEN_BOARD/2-BOARD_EDGE,SPACE_SCREEN_BOARD/2-BOARD_EDGE, BOARD_SIZE+BOARD_EDGE*2, BOARD_SIZE+BOARD_EDGE*2))
         for row in range(SIZE):
@@ -182,16 +182,18 @@ class NeutreekoGame:
                     self.game_pieces = [[],[]] 
                     pygame.time.wait(TIME)
                     self.players_moved = True
-                    pygame.draw.rect(screen, GREEN_1, (0, 0, SCREEN_SIZE, SCREEN_SIZE))
-
+                    
+                    #pygame.draw.rect(screen, GREEN_1, (0, 0, SCREEN_SIZE, SCREEN_SIZE))
+                
                 if self.players_moved: 
+                    self.update_board_screen(screen)
                     if self.board.winner != -1:
                         text = f"Player {self.board.winner} wins!" if self.board.winner != 0 else "Draw!"
                         self.create_text(screen, text, font_1, WHITE, ((SCREEN_SIZE - WIDTH_BOX)/2, (SCREEN_SIZE - HEIGHT_BOX )/2), True)
                         pygame.time.wait(2000)
                         pygame.quit()
+                        self.update_board_screen(screen)
                         return  
-                    self.update_board_screen(screen)
                     self.board.current_player = 3 - self.board.current_player
                     #self.create_text(screen, f"Current player: {self.board.current_player}", font_4, WHITE, 20)
                     self.players_moved = False
