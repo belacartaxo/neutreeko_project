@@ -20,6 +20,8 @@ SPACE_SCREEN_BOARD = 100
 SCREEN_SIZE = BOARD_SIZE + SPACE_SCREEN_BOARD
 WIDTH_BUTTON = 250
 HEIGHT_BUTTON = 80
+WIDTH_SMALL_BUTTON = 100
+HEIGHT_SMALL_BUTTON = 40
 WIDTH_BOX = 300
 HEIGHT_BOX = 100
 TIME = 1000
@@ -78,7 +80,7 @@ class NeutreekoGame:
     def update_home_screen(self, screen):
         pygame.draw.rect(screen, GREEN_1, (0, 0, SCREEN_SIZE, SCREEN_SIZE))
     
-    def update_rules_screen(self, screen, font1, font2):
+    def update_rules_screen(self, screen, font1, font2, font3, back_button):
         pygame.draw.rect(screen, GREEN_1, (0, 0, SCREEN_SIZE, SCREEN_SIZE))
         pygame.draw.rect(screen, GREEN_3, (50, 100, 500, 400), border_radius=20)
         pygame.display.flip()
@@ -89,6 +91,7 @@ class NeutreekoGame:
         self.create_text(screen, "repeats itself 5 times", font2, WHITE, 270)
         self.create_text(screen, "To win, make 3 pieces", font2, WHITE, 310)
         self.create_text(screen, "in a row.", font2, WHITE, 350)
+        self.draw_button(screen, 'Back', font3, back_button,(back_button.x+WIDTH_SMALL_BUTTON/2, back_button.y-HEIGHT_BUTTON/4))
         self.rules_button_clicked = True
 
     def check_click(self, screen, pos):
@@ -114,10 +117,11 @@ class NeutreekoGame:
         font_1 = pygame.font.Font(FONT_PATH1, 30)
         font_2 = pygame.font.Font(FONT_PATH1, 60)
         font_3 = pygame.font.Font(FONT_PATH2, 18)
+        font_4 = pygame.font.Font(FONT_PATH1, 18)
         start_button_rect = pygame.Rect((SCREEN_SIZE - WIDTH_BUTTON)/2, 200, WIDTH_BUTTON, HEIGHT_BUTTON)
         rules_button_rect = pygame.Rect((SCREEN_SIZE - WIDTH_BUTTON)/2, 300, WIDTH_BUTTON, HEIGHT_BUTTON)
         obs_button_rect = pygame.Rect((SCREEN_SIZE - WIDTH_BUTTON)/2, 400, WIDTH_BUTTON, HEIGHT_BUTTON)
-        back_button_rect= pygame.Rect((SCREEN_SIZE - WIDTH_BUTTON)/2, 700, WIDTH_BUTTON, HEIGHT_BUTTON)
+        back_button_rect = pygame.Rect((SCREEN_SIZE - WIDTH_SMALL_BUTTON)/2, SCREEN_SIZE-80, WIDTH_SMALL_BUTTON, HEIGHT_SMALL_BUTTON)
 
         while True: 
             for event in pygame.event.get(): 
@@ -136,9 +140,10 @@ class NeutreekoGame:
                     #clique no botão rules
                     elif not self.rules_button_clicked and not self.start_button_clicked and rules_button_rect.collidepoint(event.pos):
                         self.rules_button_clicked = True
-                        self.update_rules_screen(screen, font_2, font_3)
+                        self.update_rules_screen(screen, font_2, font_3, font_4, back_button_rect)
                         self.screen_update = False
-                    
+                    elif self.rules_button_clicked and back_button_rect.collidepoint(event.pos):
+                        self.rules_button_clicked = False
                               
 
             if self.start_button_clicked:
