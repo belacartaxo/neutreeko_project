@@ -141,7 +141,7 @@ class NeutreekoGame:
                     if not self.rules_button_clicked and not self.start_button_clicked and start_button_rect.collidepoint(event.pos):
                         self.start_button_clicked = True
                         self.update_board_screen(screen)
-                        #self.create_text(screen, f"Current player: {self.board.current_player}", font_4, WHITE, 20)
+                        self.create_text(screen, f"Current player: {self.board.current_player}", font_4, WHITE, 20)
                     #clique nas peças para pegas as jogadas
                     elif self.start_button_clicked and self.player[self.board.current_player-1] is None:
                         mouse_pos = pygame.mouse.get_pos()
@@ -195,7 +195,10 @@ class NeutreekoGame:
                         self.update_board_screen(screen)
                         return  
                     self.board.current_player = 3 - self.board.current_player
-                    #self.create_text(screen, f"Current player: {self.board.current_player}", font_4, WHITE, 20)
+                    rect = pygame.Rect(180, 10, 250, 30)
+                    screen.fill((GREEN_1), rect)
+                    pygame.display.flip()
+                    self.create_text(screen, f"Current player: {self.board.current_player}", font_4, WHITE, 20)
                     self.players_moved = False
             
             if not self.rules_button_clicked and not self.start_button_clicked and not self.screen_update:
