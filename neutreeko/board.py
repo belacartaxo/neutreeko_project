@@ -152,20 +152,6 @@ class Board:
         pieces = sorted(self.pieces[player - 1])
         deltap1_p2, deltap2_p3, _ = self.calculate_deltas(pieces)
         return deltap1_p2 == deltap2_p3 and deltap1_p2[0] <= 1 and deltap1_p2[1] >= -1 and deltap1_p2[1] <=1
-   
-    def check_imminent_victory2(self):
-        cont = 0
-        for m in self.available_moves():
-            new_board = deepcopy(self)
-            new_board.move(m[0], m[1])
-            print(new_board)
-            if new_board.check_victory(new_board.current_player):
-                cont +=1
-                print("vitoria")
-                print(new_board)
-        if cont: print(cont)
-        return cont
-
     
     def check_imminent_victory(self, player):
         pieces = sorted(self.pieces[player - 1])
@@ -184,7 +170,7 @@ class Board:
     
     def check_spaces(self, p1, p2, delta):
         if delta[0] == 2 or delta[1] == 2:
-            return self.current_board[((p1[0] + p2[0]) // 2, (p1[1] + p2[1]) // 2)] == 0
+            return 2* (self.current_board[((p1[0] + p2[0]) // 2, (p1[1] + p2[1]) // 2)] == 0)
         other_points = [(p1[0] - delta[0], p1[1] - delta[1]), (p2[0] + delta[0], p2[1] + delta[1])]
         space = 0
         for p in other_points:

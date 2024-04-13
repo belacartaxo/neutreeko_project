@@ -187,8 +187,6 @@ class NeutreekoGame:
                 
                 if self.players_moved: 
                     self.update_board_screen(screen)
-                    #self.board.check_imminent_victory(self.board.current_player)
-                    #self.board.check_imminent_victory2()
                     if self.board.winner != -1:
                         text = f"Player {self.board.winner} wins!" if self.board.winner != 0 else "Draw!"
                         self.create_text(screen, text, font_1, WHITE, ((SCREEN_SIZE - WIDTH_BOX)/2, (SCREEN_SIZE - HEIGHT_BOX )/2), True)
