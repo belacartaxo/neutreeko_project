@@ -8,7 +8,7 @@ from ai.heuristics import *
 # Define the main function of the program
 def main():
     # Create an instance of the NeutreekoGame, passing execute_random_move as the function to control moves for both players
-    game = NeutreekoGame(None, None)
+    game = NeutreekoGame(None, execute_minimax_alpha_beta_move(evaluate_f3, 4))
     game.run_game() # Start the game
 
 main()# Call the main function to start the program
