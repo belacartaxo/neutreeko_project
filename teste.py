@@ -6,10 +6,6 @@ def evaluate_blocking_heuristic(board, current_player):
     dual_threat_multiplier = 30 #Usado para avaliar movimentos que não apenas bloqueiam um potencial de vitória do oponente mas também criam uma ameaça de vitória para o jogador que está fazendo o movimento.
     mobility_reduction_multiplier = 5 #Este multiplicador é utilizado para pontuar movimentos que reduziriam a mobilidade do oponente, ou seja, diminuiriam as opções de movimento disponíveis para o oponente após o movimento ser feito.2
 
-    #
-    threat_count = board.check_imminent_victory(3-board.current_player)
-    score += threat_count*threat_multiplier
-
     # Verifica cada célula no tabuleiro
     for x in range(board.size):
         for y in range(board.size):
