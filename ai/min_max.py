@@ -12,12 +12,12 @@ def execute_minimax_move(evaluate_func, depth):
                 best_move = new_state
                 best_eval = new_state_eval
         game.board = best_move
-        
+    
     return execute_minimax_move_aux
 
 def minimax(state, depth, maximizing, player, evaluate_func):
     if depth == 0 or state.winner != -1:
-        return evaluate_func(state) #* (1 if player == 1 else -1)
+        return evaluate_func(state)  * (1 if player == state.current_player else -1)
     
     if maximizing:
         max_eval = float('-inf')

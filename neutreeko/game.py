@@ -201,7 +201,7 @@ class NeutreekoGame:
                               
 
             if self.start_button_clicked:
-                if self.player[self.board.current_player-1]:
+                if self.player[self.board.current_player-1] and not(self.players_moved):
 
                     if self.board.current_player == 1:
                         self.player[0](self)
