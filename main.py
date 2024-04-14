@@ -11,7 +11,7 @@ from ai.mcts import *
 # Define the main function of the program
 def main():
     # Create an instance of the NeutreekoGame, passing execute_random_move as the function to control moves for both players
-    game = NeutreekoGame()
+    game = NeutreekoGame(None, execute_negamax_alpha_beta_move(check_for_blocking_moves, 4))
     game.run_game() # Start the game
 
 main()# Call the main function to start the program

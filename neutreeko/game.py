@@ -41,6 +41,7 @@ class NeutreekoGame:
         self.player =[ ai1, ai2]
         self.start_button_clicked = False
         self.rules_button_clicked = False
+        self.obs_button_clicked = False
         self.screen_update = False
         self.mouse_over_button = False
         self.game_pieces = [[], []]
@@ -100,6 +101,24 @@ class NeutreekoGame:
         self.draw_button(screen, 'Back', font3, GREEN_3, back_button,(back_button.x+WIDTH_SMALL_BUTTON/2, back_button.y-HEIGHT_BUTTON/4))
         self.rules_button_clicked = True
 
+    def update_obs_screen(self, screen, font1, font2, font3, color, back_button):
+        pygame.draw.rect(screen, GREEN_1, (0, 0, SCREEN_SIZE, SCREEN_SIZE))
+        pygame.draw.rect(screen, GREEN_3, (50, 110, 500, 380), border_radius=20)
+        pygame.display.flip()
+        self.create_text(screen, "Information", font1, WHITE, 30)
+        self.create_text(screen, "Developed by the following FCUP students:", font2, WHITE, 140)
+        self.create_text(screen, "Isabela Britto Cartaxo", font2, WHITE, 175)
+        self.create_text(screen, "Rafael Arruda Costa", font2, WHITE, 200)
+        self.create_text(screen, "Sérgio Barbosa Marques", font2, WHITE, 225)
+        self.create_text(screen, "This work is an implementation of", font2, WHITE, 285)
+        self.create_text(screen, "Jan Kristian Haugland's game:", font2, WHITE, 310)
+        self.create_text(screen, "Neutreeko", font2, WHITE, 335)
+        self.create_text(screen, "Code and strategies were based on:", font2, WHITE, 380)
+        self.create_text(screen, "Professor Luis Paulo Reis’s classes", font2, WHITE, 405)
+        self.create_text(screen, "OpenAI's chatGPT prompts", font2, WHITE, 430)
+        self.draw_button(screen, 'Back', font3, GREEN_3, back_button,(back_button.x+WIDTH_SMALL_BUTTON/2, back_button.y-HEIGHT_BUTTON/4))
+        self.rules_button_clicked = True
+
     def check_click(self, screen, pos):
         for piece in self.game_pieces[self.board.current_player-1]:
             if piece.is_clicked(pos):
@@ -147,15 +166,23 @@ class NeutreekoGame:
                         mouse_pos = pygame.mouse.get_pos()
                         self.check_click(screen, mouse_pos)
                     #clique no botão rules
-                    elif not self.rules_button_clicked and not self.start_button_clicked and rules_button_rect.collidepoint(event.pos):
+                    elif not self.rules_button_clicked and not self.start_button_clicked and not self.obs_button_clicked and rules_button_rect.collidepoint(event.pos):
                         self.rules_button_clicked = True
                         self.update_rules_screen(screen, font_2, font_3, font_4, GREEN_3, back_button_rect)
                         self.screen_update = False
                     elif self.rules_button_clicked and back_button_rect.collidepoint(event.pos):
                         self.rules_button_clicked = False
+                        print("back clique 2")
+                    elif not self.rules_button_clicked and not self.start_button_clicked and not self.obs_button_clicked and obs_button_rect.collidepoint(event.pos):
+                        self.obs_button_clicked = True
+                        self.update_obs_screen(screen, font_2, font_3, font_4, GREEN_3, back_button_rect)
+                        self.screen_update = False
+                    elif self.obs_button_clicked and back_button_rect.collidepoint(event.pos):
+                        self.obs_button_clicked = False
+                        print("back clique 1")
                 elif event.type == pygame.MOUSEMOTION:
                     mouse_pos = pygame.mouse.get_pos()
-                    if not self.rules_button_clicked and not self.start_button_clicked:
+                    if not self.rules_button_clicked and not self.start_button_clicked and not self.obs_button_clicked:
                         for i in range(len(home_buttons)):
                             # Verifica se o mouse está dentro das dimensões do botão
                             if home_buttons[i].left <= mouse_pos[0] <= home_buttons[i].right and home_buttons[i].top <= mouse_pos[1] <= home_buttons[i].bottom:
@@ -167,7 +194,11 @@ class NeutreekoGame:
                             self.draw_button(screen, "Back", font_4, GREEN_2, back_button_rect,(back_button_rect.x+WIDTH_SMALL_BUTTON/2, back_button_rect.y-HEIGHT_BUTTON/4))
                         else:
                             self.draw_button(screen, "Back", font_4, GREEN_3, back_button_rect,(back_button_rect.x+WIDTH_SMALL_BUTTON/2, back_button_rect.y-HEIGHT_BUTTON/4))
-
+                    elif self.obs_button_clicked:
+                        if back_button_rect.left <= mouse_pos[0] <= back_button_rect.right and back_button_rect.top <= mouse_pos[1] <= back_button_rect.bottom:
+                            self.draw_button(screen, "Back", font_4, GREEN_2, back_button_rect,(back_button_rect.x+WIDTH_SMALL_BUTTON/2, back_button_rect.y-HEIGHT_BUTTON/4))
+                        else:
+                            self.draw_button(screen, "Back", font_4, GREEN_3, back_button_rect,(back_button_rect.x+WIDTH_SMALL_BUTTON/2, back_button_rect.y-HEIGHT_BUTTON/4))
 
                               
 
@@ -201,7 +232,7 @@ class NeutreekoGame:
                     self.create_text(screen, f"Current player: {self.board.current_player}", font_4, WHITE, 20)
                     self.players_moved = False
             
-            if not self.rules_button_clicked and not self.start_button_clicked and not self.screen_update:
+            if not self.rules_button_clicked and not self.start_button_clicked and not self.obs_button_clicked and not self.screen_update:
                 self.update_home_screen(screen)
                 self.create_text(screen, "NEUTREEKO", font_2, WHITE, 100)
                 for i in range(len(home_buttons)):
