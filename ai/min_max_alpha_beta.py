@@ -10,7 +10,6 @@ def execute_minimax_alpha_beta_move(evaluate_func, depth):
             # maximizing = False because we are checking for the best moves for the opponent after this move
             new_state_eval = minimax_alpha_beta(new_state, depth - 1, float('-inf'), float('+inf'), False, game.board.current_player, evaluate_func)
             if new_state_eval > best_eval:
-
                 best_move = new_state
                 best_eval = new_state_eval
         game.board = best_move

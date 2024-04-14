@@ -17,7 +17,7 @@ def execute_negamax_move(evaluate_func, depth):
 
 def negamax(state, depth, player, evaluate_func):
     if depth == 0 or state.winner != -1:
-        return evaluate_func(state, depth) * (1 if player == state.current_player else -1)
+        return evaluate_func(state, depth) * (1 if player == 3-state.current_player else -1)
     
     max_eval = float('-inf')
     for move in state.available_moves():
