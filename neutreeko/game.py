@@ -117,7 +117,7 @@ class NeutreekoGame:
         self.create_text(screen, "Professor Luis Paulo Reis’s classes", font2, WHITE, 405)
         self.create_text(screen, "OpenAI's chatGPT prompts", font2, WHITE, 430)
         self.draw_button(screen, 'Back', font3, GREEN_3, back_button,(back_button.x+WIDTH_SMALL_BUTTON/2, back_button.y-HEIGHT_BUTTON/4))
-        self.rules_button_clicked = True
+        self.obs_button_clicked = True
 
     def check_click(self, screen, pos):
         for piece in self.game_pieces[self.board.current_player-1]:
