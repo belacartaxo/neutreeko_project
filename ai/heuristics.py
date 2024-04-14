@@ -1,14 +1,14 @@
 from copy import deepcopy
 
 # Heuristic functions
-def evaluate_f1(board): #Analise apenas vas vitorias / EASY
-    return board.check_victory(3-board.current_player)
+def evaluate_f1(board, depth): #Analise apenas vas vitorias / EASY
+    return board.check_victory(3-board.current_player) * depth
 
-def evaluate_f2(board): #Analise das vitorias e das vitórias iminentes / MEDIUM
-    return evaluate_f1(board) * 100 + board.check_imminent_victory(board.current_player) - board.check_imminent_victory(3-board.current_player)
+def evaluate_f2(board, depth): #Analise das vitorias e das vitórias iminentes / MEDIUM
+    return evaluate_f1(board, depth) * 100 + board.check_imminent_victory(board.current_player) - board.check_imminent_victory(3-board.current_player)
 
 def evaluate_f3(board, depth): #HARD
-    if evaluate_f1(board): return 1000 * depth
+    if evaluate_f1(board, depth): return 1000
     if board.winner == 0: return 0
     opponent_imminent_victory = board.check_imminent_victory(board.current_player)
     if opponent_imminent_victory:
@@ -26,5 +26,5 @@ def check_for_blocking_moves(board):
             return -400
     return 400
 
-def evaluate_f4(board): #Avalia a mobilidade e os empates
-    return evaluate_f3(board) + (len(board.available_moves(3-board.current_player)) - len(board.available_moves())) *10
+def evaluate_f4(board, depth): #Avalia a mobilidade e os empates
+    return evaluate_f3(board, depth) + (len(board.available_moves(3-board.current_player)) - len(board.available_moves())) *10

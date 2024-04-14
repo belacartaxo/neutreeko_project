@@ -16,6 +16,7 @@ COMO FAZ PARA COLOCAR OS JOGADORES ATUAIS, ESTÁ UM TEXTO FICANDO POR CIMA DO OU
 SIZE =  5
 WHITE = (255, 255, 255) 
 BLACK = (0, 0, 0)
+RED = (180,0, 0)
 GREEN = (78,255,93)
 GREEN_1 = (88, 154, 141) 
 GREEN_2 = (143, 193, 181)
@@ -92,6 +93,7 @@ class NeutreekoGame:
         return piece
             
     def update_board_screen(self, screen, clicked_piece = None):
+        self.update_home_screen(screen)
         self.create_board_surface(screen)
         self.create_piece_surface(self.board.pieces, screen, clicked_piece)
         pygame.display.flip()
@@ -228,14 +230,22 @@ class NeutreekoGame:
                                     for n in range(4):
                                         self.draw_button(screen, players_buttons_text[n], font_5, GREEN_3, players_buttons[n],(players_buttons[n].x + WIDTH_PLAYER_BUTTON/2, players_buttons[n].y-10))
                                     print("111")
-                                    self.player[0] = AI(ai[i], DEPTH)
+                                    self.player[0] = AI(ai[i], DEPTH) if ai[i] != None else None
                                     self.draw_button(screen, players_buttons_text[i], font_5, GREEN_2, players_buttons[i],(players_buttons[i].x + WIDTH_PLAYER_BUTTON/2, players_buttons[i].y-10))
                                 else:
                                     print("222")
                                     for n in range(4, len(players_buttons)):
                                         self.draw_button(screen, players_buttons_text[n], font_5, GREEN_3, players_buttons[n],(players_buttons[n].x + WIDTH_PLAYER_BUTTON/2, players_buttons[n].y-10))
                                     self.draw_button(screen, players_buttons_text[i], font_5, GREEN_2, players_buttons[i],(players_buttons[i].x + WIDTH_PLAYER_BUTTON/2, players_buttons[i].y-10))
-                                    self.player[1] = AI(ai[i], DEPTH)
+                                    self.player[1] = AI(ai[i], DEPTH) if ai[i] != None else None
+                        if continue_button_rect.collidepoint(event.pos):
+                            if self.player[0] != False and self.player[1] != False:
+                                self.choose_player_screen = False
+                                self.board_screen = True
+                                self.update_board_screen(screen)
+                                self.create_text(screen, f"Current player: {self.board.current_player}", font_4, WHITE, 20)
+                            else:
+                                self.create_text(screen, "Choose both players", font_4, RED, 120)
 
 
                 elif event.type == pygame.MOUSEMOTION:
@@ -253,6 +263,11 @@ class NeutreekoGame:
                             self.draw_button(screen, "Back", font_4, GREEN_2, back_button_rect,(back_button_rect.x+WIDTH_SMALL_BUTTON/2, back_button_rect.y-HEIGHT_BUTTON/4))
                         else:
                             self.draw_button(screen, "Back", font_4, GREEN_3, back_button_rect,(back_button_rect.x+WIDTH_SMALL_BUTTON/2, back_button_rect.y-HEIGHT_BUTTON/4))
+                    if self.choose_player_screen:
+                        if continue_button_rect.left <= mouse_pos[0] <= back_button_rect.right and back_button_rect.top <= mouse_pos[1] <= back_button_rect.bottom:
+                            self.draw_button(screen, 'Continue', font_3, GREEN_2, continue_button_rect,(continue_button_rect.x+WIDTH_SMALL_BUTTON/2, continue_button_rect.y-HEIGHT_BUTTON/4))
+                        else:
+                            self.draw_button(screen, 'Continue', font_3, GREEN_3, continue_button_rect,(continue_button_rect.x+WIDTH_SMALL_BUTTON/2, continue_button_rect.y-HEIGHT_BUTTON/4))
                               
             #jogo acontecendo
             if self.board_screen:
