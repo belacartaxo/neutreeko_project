@@ -172,14 +172,12 @@ class NeutreekoGame:
                         self.screen_update = False
                     elif self.rules_button_clicked and back_button_rect.collidepoint(event.pos):
                         self.rules_button_clicked = False
-                        print("back clique 2")
                     elif not self.rules_button_clicked and not self.start_button_clicked and not self.obs_button_clicked and obs_button_rect.collidepoint(event.pos):
                         self.obs_button_clicked = True
                         self.update_obs_screen(screen, font_2, font_3, font_4, GREEN_3, back_button_rect)
                         self.screen_update = False
                     elif self.obs_button_clicked and back_button_rect.collidepoint(event.pos):
                         self.obs_button_clicked = False
-                        print("back clique 1")
                 elif event.type == pygame.MOUSEMOTION:
                     mouse_pos = pygame.mouse.get_pos()
                     if not self.rules_button_clicked and not self.start_button_clicked and not self.obs_button_clicked:
