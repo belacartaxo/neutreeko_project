@@ -8,7 +8,7 @@ def evaluate_f2(board, depth): #Analise das vitorias e das vitórias iminentes /
     return evaluate_f1(board, depth) * 100 + board.check_imminent_victory(board.current_player) - board.check_imminent_victory(3-board.current_player)
 
 def evaluate_f3(board, depth): #HARD
-    if evaluate_f1(board, depth): return 1000
+    if evaluate_f1(board, depth): return 1000  * evaluate_f1(board, depth)
     if board.winner == 0: return 0
     opponent_imminent_victory = board.check_imminent_victory(board.current_player)
     if opponent_imminent_victory:
