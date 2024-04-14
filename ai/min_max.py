@@ -17,7 +17,7 @@ def execute_minimax_move(evaluate_func, depth):
 
 def minimax(state, depth, maximizing, player, evaluate_func):
     if depth == 0 or state.winner != -1:
-        return evaluate_func(state)  * (1 if player == state.current_player else -1)
+        return evaluate_func(state, depth)  * (1 if player == state.current_player else -1)
     
     if maximizing:
         max_eval = float('-inf')
