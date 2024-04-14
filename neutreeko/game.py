@@ -219,9 +219,9 @@ class NeutreekoGame:
                     if self.board.winner != -1:
                         text = f"Player {self.board.winner} wins!" if self.board.winner != 0 else "Draw!"
                         self.create_text(screen, text, font_1, WHITE, ((SCREEN_SIZE - WIDTH_BOX)/2, (SCREEN_SIZE - HEIGHT_BOX )/2), True)
-                        pygame.display.flip()
                         pygame.time.wait(2000)
                         pygame.quit()
+                        self.update_board_screen(screen)
                         return  
                     self.board.current_player = 3 - self.board.current_player
                     rect = pygame.Rect(180, 10, 250, 30)
