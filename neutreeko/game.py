@@ -223,7 +223,6 @@ class NeutreekoGame:
                         pygame.quit()
                         self.update_board_screen(screen)
                         return  
-                    self.board.current_player = 3 - self.board.current_player
                     rect = pygame.Rect(180, 10, 250, 30)
                     screen.fill((GREEN_1), rect)
                     pygame.display.flip()

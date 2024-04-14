@@ -32,6 +32,7 @@ class Board:
         board_copy.current_board = board_copy.create_board(board_copy.pieces)
         board_copy.consecutive_plays.append(board_copy.sorted_list(board_copy.pieces))
         board_copy.winner = board_copy.update_winner()
+        board_copy.current_player= 3 - self.current_player
         return board_copy
 
     def available_moves(self, player = None):
