@@ -16,9 +16,9 @@
 
 - This project requires the following dependencies:
 
-**Python**
-**Pygame**
-**NumPy**
+- **Python**
+- **Pygame**
+- **NumPy**
 
 #### Used libraries
 
@@ -29,6 +29,28 @@
 - Pygame: Facilitates game development with capabilities for graphics and sound.
 - Sys: Accesses system-specific parameters and functions.
 - Os: Interacts with the operating system for file and directory management.
+
+
+
+#### Playing the Game
+
+- To play the game, you need to first import the Pygame library and then run the main game script. Follow these instructions:
+
+**Import Pygame**
+
+- Ensure that Pygame is installed in your Python environment. If not installed, you can install it using pip:
+
+```bash
+pip install pygame
+
+```
+
+- To start the game, navigate to the directory containing main.py and execute the following command in the terminal:
+
+```bash
+python main.py
+
+```
 
 ### Team T2C_G4
 
