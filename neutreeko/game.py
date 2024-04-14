@@ -157,7 +157,7 @@ class NeutreekoGame:
                     sys.exit()
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     #clique no botâo de iniciar
-                    if not self.rules_button_clicked and not self.start_button_clicked and start_button_rect.collidepoint(event.pos):
+                    if not self.rules_button_clicked and not self.start_button_clicked and not self.obs_button_clicked and start_button_rect.collidepoint(event.pos):
                         self.start_button_clicked = True
                         self.update_board_screen(screen)
                         self.create_text(screen, f"Current player: {self.board.current_player}", font_4, WHITE, 20)
