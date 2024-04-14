@@ -25,6 +25,3 @@ def check_for_blocking_moves(board):
         if moved_board.winner != -1:
             return -400
     return 400
-
-def evaluate_f4(board, depth): #Avalia a mobilidade e os empates
-    return evaluate_f3(board, depth) + (len(board.available_moves(3-board.current_player)) - len(board.available_moves())) *10

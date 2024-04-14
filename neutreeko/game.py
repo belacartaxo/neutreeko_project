@@ -43,7 +43,7 @@ FONT_PATH2 = os.path.join("assets", "font", "Bungee_Poppins", "Poppins", "Poppin
 AI = execute_minimax_alpha_beta_move
 EASY = evaluate_f1
 MEDIUM = evaluate_f2
-HARD = evaluate_f4
+HARD = evaluate_f3
 DEPTH = 3
 
 class NeutreekoGame:
@@ -230,7 +230,9 @@ class NeutreekoGame:
                                     for n in range(4):
                                         self.draw_button(screen, players_buttons_text[n], font_5, GREEN_3, players_buttons[n],(players_buttons[n].x + WIDTH_PLAYER_BUTTON/2, players_buttons[n].y-10))
                                     print("111")
+
                                     self.player[0] = AI(ai[i], DEPTH) if ai[i] != None else None
+
                                     self.draw_button(screen, players_buttons_text[i], font_5, GREEN_2, players_buttons[i],(players_buttons[i].x + WIDTH_PLAYER_BUTTON/2, players_buttons[i].y-10))
                                 else:
                                     print("222")
@@ -248,6 +250,7 @@ class NeutreekoGame:
                                 self.create_text(screen, "Choose both players", font_4, RED, 120)
 
 
+
                 elif event.type == pygame.MOUSEMOTION:
                     mouse_pos = pygame.mouse.get_pos()
                     if self.home_screen:
@@ -263,11 +266,13 @@ class NeutreekoGame:
                             self.draw_button(screen, "Back", font_4, GREEN_2, back_button_rect,(back_button_rect.x+WIDTH_SMALL_BUTTON/2, back_button_rect.y-HEIGHT_BUTTON/4))
                         else:
                             self.draw_button(screen, "Back", font_4, GREEN_3, back_button_rect,(back_button_rect.x+WIDTH_SMALL_BUTTON/2, back_button_rect.y-HEIGHT_BUTTON/4))
+
                     if self.choose_player_screen:
                         if continue_button_rect.left <= mouse_pos[0] <= back_button_rect.right and back_button_rect.top <= mouse_pos[1] <= back_button_rect.bottom:
                             self.draw_button(screen, 'Continue', font_3, GREEN_2, continue_button_rect,(continue_button_rect.x+WIDTH_SMALL_BUTTON/2, continue_button_rect.y-HEIGHT_BUTTON/4))
                         else:
                             self.draw_button(screen, 'Continue', font_3, GREEN_3, continue_button_rect,(continue_button_rect.x+WIDTH_SMALL_BUTTON/2, continue_button_rect.y-HEIGHT_BUTTON/4))
+
                               
             #jogo acontecendo
             if self.board_screen:
