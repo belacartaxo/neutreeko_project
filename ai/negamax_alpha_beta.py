@@ -1,37 +1,41 @@
 def execute_negamax_alpha_beta_move(evaluate_func, depth):
     def execute_negamax_alpha_beta_move_aux(game):
-        # This function updates the game state to the best possible move as determined by the Negamax algorithm with Alpha-Beta pruning.
+        # This function updates the game state to the best possible move
+        # determined by the Negamax algorithm with Alpha-Beta pruning.
         best_move = None
         best_eval = float('-inf')
-        # Iterate through all available moves to explore possible game states.
+        # Iterate over all available moves from the current game state
         for move in game.board.available_moves():
-            # Create a new game state by applying the current move.
+            # Apply the move to generate a new game state
             new_state = game.board.move(move[0], move[1])
-            # Use negamax recursion with alpha-beta pruning, with a negation twist to handle minimaxing in a simplified manner.
-            new_state_eval = -negamax_alpha_beta(new_state, depth - 1, -float('inf'), -float('inf'), game.board.current_player, evaluate_func)
-            # Update the best move and evaluation if the current move leads to a better evaluation.
-            if new_state_eval > best_eval:
+            # Recursively calculate the evaluation of this new state by Negamax
+            eval = -negamax_alpha_beta(new_state, depth - 1, float('-inf'), float('+inf'), game.board.current_player, evaluate_func)
+            # Update best move if this state has a better evaluation
+            if eval > best_eval:
                 best_move = new_state
-                best_eval = new_state_eval
-        # Update the actual game board to reflect the best move determined.
+                best_eval = eval
+        # Update the game board to the best move found
         game.board = best_move
-    # Return the auxiliary function to be called with the actual game instance.        
+        
     return execute_negamax_alpha_beta_move_aux
 
-def negamax_alpha_beta(state, depth, alpha, beta, player, evaluate_func):
-    # Base case: if the depth limit is reached or the game is over (a player wins), return the evaluated score.
+def negamax_alpha_beta(state, depth, alpha, beta, player, evaluate_func): #state - new state (estado atual do tabuleiro)
+    # Base case: return the heuristic value of the state if the maximum depth is reached or the game is over
     if depth == 0 or state.winner != -1:
         return evaluate_func(state, depth) * (1 if player == 3-state.current_player else -1)
     
     max_eval = float('-inf')
-    # Explore all possible subsequent moves using the negamax structure.
+    # Explore all possible moves from this state for the current player
     for move in state.available_moves():
+        # Create new state by applying the move
         new_state = state.move(move[0], move[1])
-        # Negamax flips the alpha and beta values and also inverts the evaluation function’s sign for the recursive call.
-        eval = -negamax_alpha_beta(new_state, depth - 1, -beta, -alpha, player, evaluate_func)
+        # Recursively evaluate the new state, switching players
+        eval = -negamax_alpha_beta(new_state, depth - 1, -beta, -alpha, 3 - player, evaluate_func)
+        # Find the maximum evaluation
         max_eval = max(max_eval, eval)
+        # Update alpha value
         alpha = max(alpha, eval)
-        # Alpha-Beta pruning: break if the alpha cutoff is greater than or equal to the beta value.
-        if alpha >= beta:
+        # Alpha-Beta Pruning
+        if beta <= alpha:
             break
     return max_eval

@@ -1,3 +1,4 @@
+# TO DO - ajeitar
 def execute_negamax_move(evaluate_func, depth):
     def execute_negamax_move_aux(game):
         # This function updates the game state to the best possible move determined by the Negamax algorithm.

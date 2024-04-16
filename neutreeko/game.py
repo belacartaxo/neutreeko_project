@@ -6,6 +6,7 @@ from .board import Board
 from .piece import Piece
 from ai.heuristics import *
 from ai.min_max_alpha_beta import *
+from ai.negamax_alpha_beta import *
 
 '''
 COMO FAZ PARA COLOCAR OS JOGADORES ATUAIS, ESTÁ UM TEXTO FICANDO POR CIMA DO OUTRO
@@ -247,13 +248,11 @@ class NeutreekoGame:
                                 if i < 4:
                                     for n in range(4):
                                         self.draw_button(screen, players_buttons_text[n], font_5, GREEN_3, players_buttons[n],(players_buttons[n].x + WIDTH_PLAYER_BUTTON/2, players_buttons[n].y-10))
-                                    print("111")
 
                                     self.player[0] = AI(ai[i], DEPTH) if ai[i] != None else None
 
                                     self.draw_button(screen, players_buttons_text[i], font_5, GREEN_2, players_buttons[i],(players_buttons[i].x + WIDTH_PLAYER_BUTTON/2, players_buttons[i].y-10))
                                 else:
-                                    print("222")
                                     for n in range(4, len(players_buttons)):
                                         self.draw_button(screen, players_buttons_text[n], font_5, GREEN_3, players_buttons[n],(players_buttons[n].x + WIDTH_PLAYER_BUTTON/2, players_buttons[n].y-10))
                                     self.draw_button(screen, players_buttons_text[i], font_5, GREEN_2, players_buttons[i],(players_buttons[i].x + WIDTH_PLAYER_BUTTON/2, players_buttons[i].y-10))
@@ -266,8 +265,6 @@ class NeutreekoGame:
                                 self.create_text(screen, f"Current player: {self.board.current_player}", font_4, WHITE, 20)
                             else:
                                 self.create_text(screen, "Choose both players", font_4, RED, 120)
-
-
 
                 elif event.type == pygame.MOUSEMOTION:
                     mouse_pos = pygame.mouse.get_pos()
@@ -357,8 +354,3 @@ class NeutreekoGame:
         text_width, text_height = button_surface.get_size()
         screen.blit(button_surface, (position[0]-text_width/2, position[1]+ (HEIGHT_BUTTON - text_height)/2))
         pygame.display.flip()
-
-def execute_random_move(game):
-    new_pieces = random.choice(game.board.available_moves())
-    game.board = game.board.move(new_pieces[0], new_pieces[1])
-

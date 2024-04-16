@@ -3,7 +3,7 @@ from math import sqrt, log
 from copy import deepcopy
 
 import random
-
+# TO DO - fazer o mcts
 class Node:
     def __init__(self, board, parent=None):
         self.state = board
