@@ -5,6 +5,10 @@
 - The objective of the game is to align three pieces in a row, vertically, horizontally, or diagonally.
 - Players can only move to the furthest available position in those directions.
 - A draw is declared when the board configuration repeats itself three times.
+  
+![Neutreeko](assets/img/readme-img1.png)
+
+![Neutreeko Board](assets/img/readme-img2.png)
 
 ## Description
 
@@ -34,14 +38,18 @@
 
 #### Playing the Game
 
-- To play the game, you need to first import the Pygame library and then run the main game script. Follow these instructions:
+- To play the game, you need to first import the Pygame ang NumPy library and then run the main game script. Follow these instructions:
 
-**Import Pygame**
+**Import Pygame and NumPy**
 
-- Ensure that Pygame is installed in your Python environment. If not installed, you can install it using pip:
+- Ensure that Pygame and NumPy is installed in your Python environment. If not installed, you can install it using pip:
 
 ```bash
 pip install pygame
+
+```
+```bash
+pip install numpy
 
 ```
 
