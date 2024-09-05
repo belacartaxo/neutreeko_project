@@ -56,5 +56,4 @@ python main.py
 
 - Isabela Britto Cartaxo
 - Rafael Arruda Costa
-- Sérgio Barbosa Marques
 
